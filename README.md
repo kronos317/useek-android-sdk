@@ -13,3 +13,9 @@ sdk.setUserId("external-user-id"); // user id from your application
 sdk.setVideoId(125); // id of video which should be played, most likely received from USeek as well
 sdk.playVideo();
 ```
+
+## Instructions for Android Studio ##
+
+1. Copy [useeksdk.aar](https://bitbucket.org/useek/useek-android-sdk/src/3f28df4f3669ba4e018c7686820e051bba5a2446/useeksdk.aar?at=master) to your ```/app/libs``` directory.
+2. Import the module into your app - (instructions [here](http://stackoverflow.com/a/34919810/6557231) )
+3. Trigger the useek player as shown above.
