@@ -3,7 +3,7 @@ USeek SDK
 
 Three simple steps to integrate USeek SDK into your application:
 
-1. Add new module by importing **useeksdk.aar** library.
+1. Add new module by importing [useeksdk.aar](https://bitbucket.org/useek/useek-android-sdk/src/3f28df4f3669ba4e018c7686820e051bba5a2446/useeksdk.aar?at=master) library.
 2. Go to **Project Structure** and add **useeksdk** library as a dependency of your app
 3. Put this code wherever you'd like trigger USeek player:
 ```java
