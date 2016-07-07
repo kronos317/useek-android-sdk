@@ -11,6 +11,7 @@ public class UseekSDK {
     Integer videoId;
 
     public final static String PLAYER_URL = "com.useek.useeksdk.PLAYER_URL";
+    public final static String SDK_VERSION = "1.0";
 
     public UseekSDK(Context context) {
         this.context = context;
@@ -29,15 +30,18 @@ public class UseekSDK {
     }
 
     public void playVideo() {
-        if(publisherId == null || userId == null || videoId == null) return;
+        if(publisherId == null || videoId == null) return;
         if(Build.VERSION.SDK_INT < 19) return;
 
         Intent intent = new Intent(context, PlayerActivity.class);
         intent.putExtra(PLAYER_URL, getPlayerUrl());
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
 
     private String getPlayerUrl() {
-        return "https://www.useek.com/videos/" + String.valueOf(videoId) + "/embed_play?sdk_publisher=" + publisherId + "&external_user_id="+userId;
+        String url = "https://www.useek.com/sdk/" + SDK_VERSION + '/' + publisherId + '/' + String.valueOf(videoId);
+        if(userId != null) url += "?external_user_id=" + userId;
+        return url;
     }
 }
