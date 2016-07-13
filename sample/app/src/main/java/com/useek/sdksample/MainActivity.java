@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void openPlayer(View view) {
         UseekSDK sdk = new UseekSDK(this);
-        sdk.setPublisherId("cinemark");
+        sdk.setPublisherId("3543049ba603c93461697c43aa71fafd");
         sdk.setUserId("external-user-id");
         sdk.setVideoId(125);
         sdk.playVideo();
