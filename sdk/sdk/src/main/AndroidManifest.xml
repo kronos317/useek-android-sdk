@@ -10,7 +10,7 @@
         android:hardwareAccelerated="true"
         android:label="@string/app_name"
         android:supportsRtl="true">
-        <activity android:name=".PlayerActivity"></activity>
+        <activity android:name=".WebviewActivity"></activity>
     </application>
 
 </manifest>
