@@ -14,12 +14,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        sdk.setPublisherId("5a857cb7958adcf9a1f53239b0c2eced");
-        sdk.setUserId("lukasz-tackowiak");
+        sdk.setPublisherId("3543049ba603c93461697c43aa71fafd");
+        sdk.setUserId("external-user-id");
     }
 
     public void openPlayer(View view) {
-        sdk.setVideoId(1);
+        sdk.setVideoId(125);
         sdk.playVideo();
     }
 
