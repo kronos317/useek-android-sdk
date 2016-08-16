@@ -26,7 +26,7 @@ public class LocationTracker implements GoogleApiClient.ConnectionCallbacks, Goo
         if(mLastLocation == null) {
             return "";
         } else {
-            return mLastLocation.getLatitude() + "," + mLastLocation.getLongitude();
+            return mLastLocation.getLongitude() + "," + mLastLocation.getLatitude();
         }
     }
 
