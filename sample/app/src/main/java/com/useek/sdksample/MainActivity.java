@@ -15,12 +15,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         sdk = new UseekSDK(this);
-        sdk.setPublisherId("3543049ba603c93461697c43aa71fafd");
+        sdk.setPublisherId("a839793e879c8d0237124a8400e31477");
         sdk.setUserId("external-user-id");
     }
 
     public void openPlayer(View view) {
-        sdk.setVideoId(125);
+        sdk.setVideoId(127);
         sdk.playVideo();
     }
 
