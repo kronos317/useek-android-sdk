@@ -2,8 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.useek.library_beta">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application>
-        <activity android:name=".activity.USeakActivity"></activity>
+        <activity android:name=".USeakActivity"></activity>
     </application>
 
 </manifest>

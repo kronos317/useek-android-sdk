@@ -1,0 +1,64 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <WebView
+            android:id="@+id/useak_web_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </WebView>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/useak_loading_mask_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:drawable/screen_background_dark_transparent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center">
+
+            <ProgressBar
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:progressTint="@android:color/darker_gray"
+                android:scrollbarSize="@dimen/loading_text_size" />
+
+            <TextView
+                android:id="@+id/useak_loading_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/loading_webview"
+                android:textSize="@dimen/loading_text_size"
+                android:textColor="@android:color/darker_gray"
+                android:layout_marginLeft="10dp"/>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <!--<com.useek.library_beta.USeakView-->
+        <!--android:layout_width="300dp"-->
+        <!--android:layout_height="300dp"-->
+        <!--android:background="#ccc"-->
+        <!--android:paddingBottom="40dp"-->
+        <!--android:paddingLeft="20dp"-->
+        <!--app:exampleColor="#33b5e5"-->
+        <!--app:exampleDimension="24sp"-->
+        <!--app:exampleDrawable="@android:drawable/ic_menu_add"-->
+        <!--app:exampleString="Hello, USeakView" />-->
+
+</FrameLayout>

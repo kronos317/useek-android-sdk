@@ -1,4 +1,4 @@
-package com.useek.library_beta.activity;
+package com.useek.library_beta;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

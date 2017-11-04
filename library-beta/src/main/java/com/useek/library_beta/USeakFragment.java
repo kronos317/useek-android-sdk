@@ -1,4 +1,4 @@
-package com.useek.library_beta.fragment;
+package com.useek.library_beta;
 
 import android.content.Context;
 import android.net.Uri;
@@ -7,8 +7,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.useek.library_beta.R;
 
 /**
  * A simple {@link Fragment} subclass.
