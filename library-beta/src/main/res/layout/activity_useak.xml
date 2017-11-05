@@ -1,9 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.useek.library_beta.USeakActivity">
+    tools:context="com.useek.library_beta.USeakPlayerActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <com.useek.library_beta.USeakPlayerView
+            android:id="@+id/useak_activity_player_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </com.useek.library_beta.USeakPlayerView>
+
+        <ImageButton
+            android:id="@+id/useak_activity_close_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/icon_close"
+            android:background="@android:color/transparent"
+            android:layout_margin="@dimen/close_button_margin"
+            android:layout_gravity="end"/>
+
+    </FrameLayout>
+
+
+</LinearLayout>

@@ -15,6 +15,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import java.net.URL;
 
@@ -22,12 +23,13 @@ import java.net.URL;
  * TODO: document your custom view class.
  */
 
-public class USeakView extends FrameLayout {
+public class USeakPlayerView extends FrameLayout {
 
     private final String tagName = getResources().getString(R.string.library_name);
 
     private WebView webView;
     private FrameLayout loadingMaskView;
+    private TextView loadingTextView;
 
     private String gameId;
     private String userId;
@@ -37,17 +39,19 @@ public class USeakView extends FrameLayout {
 
     private USeakPlayerListener playerListener;
 
-    public USeakView(Context context) {
+    private String mLoadingTextString;
+
+    public USeakPlayerView(Context context) {
         super(context);
         init(context, null, 0);
     }
 
-    public USeakView(Context context, AttributeSet attrs) {
+    public USeakPlayerView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs, 0);
     }
 
-    public USeakView(Context context, AttributeSet attrs, int defStyle) {
+    public USeakPlayerView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init(context, attrs, defStyle);
     }
@@ -57,12 +61,18 @@ public class USeakView extends FrameLayout {
         View view = LayoutInflater.from(context).inflate(R.layout.useak_view, this, true);
         webView = view.findViewById(R.id.useak_web_view);
         loadingMaskView = view.findViewById(R.id.useak_loading_mask_view);
+        loadingTextView = view.findViewById(R.id.useak_loading_text);
 
         this.isLoadingMaskHidden = false;
 
         // Load attributes
         final TypedArray a = getContext().obtainStyledAttributes(
-                attrs, R.styleable.USeakView, defStyle, 0);
+                attrs, R.styleable.USeakPlayerView, defStyle, 0);
+
+        if (a.hasValue(R.styleable.USeakPlayerView_useak_loadingText)) {
+            this.mLoadingTextString = a.getString(R.styleable.USeakPlayerView_useak_loadingText);
+            this.loadingTextView.setText(this.mLoadingTextString);
+        }
 
         a.recycle();
     }
@@ -109,14 +119,6 @@ public class USeakView extends FrameLayout {
 
     private void setStatus(VideoLoadStatus status) {
         this.status = status;
-    }
-
-    public Boolean getLoadingMaskHidden() {
-        return isLoadingMaskHidden;
-    }
-
-    private void setLoadingMaskHidden(Boolean loadingMaskHidden) {
-        isLoadingMaskHidden = loadingMaskHidden;
     }
 
     public void setPlayerListener(USeakPlayerListener playerListener) {
@@ -204,11 +206,8 @@ public class USeakView extends FrameLayout {
         /** Initialize WebView */
         this.initializeWebView();
 
-        /** Load Video URL */
-        webView.loadUrl(url.toString());
-
         /** Set webView listener */
-        final USeakView _this = this;
+        final USeakPlayerView _this = this;
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
@@ -228,6 +227,10 @@ public class USeakView extends FrameLayout {
                 _this.failedLoadingWebView(error);
             }
         });
+
+        /** Load Video URL */
+        webView.loadUrl(url.toString());
+
     }
 
     private void initializeWebView() {

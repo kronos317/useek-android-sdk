@@ -16,6 +16,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name="com.useek.library_beta.USeakPlayerActivity">
+
+        </activity>
     </application>
 
 </manifest>

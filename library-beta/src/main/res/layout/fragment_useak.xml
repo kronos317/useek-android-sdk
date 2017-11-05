@@ -2,12 +2,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.useek.library_beta.USeakFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.useek.library_beta.USeakPlayerFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <com.useek.library_beta.USeakPlayerView
+        android:id="@+id/useak_player_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent">
+
+    </com.useek.library_beta.USeakPlayerView>
+
+    <ImageButton
+        android:id="@+id/useak_fragment_close_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/icon_close"
+        android:background="@android:color/transparent"
+        android:layout_margin="@dimen/close_button_margin"
+        android:layout_gravity="end"/>
 
 </FrameLayout>

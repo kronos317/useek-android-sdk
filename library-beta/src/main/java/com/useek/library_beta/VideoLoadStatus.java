@@ -10,4 +10,3 @@ public enum VideoLoadStatus {
     LOADED,
     LOAD_FAILED,
 }
-

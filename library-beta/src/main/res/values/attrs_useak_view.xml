@@ -1,6 +1,6 @@
 <resources>
-    <declare-styleable name="USeakView">
-        <attr name="loadingText" format="string" />
-        <attr name="loadingTextSize" format="dimension" />
+    <declare-styleable name="USeakPlayerView">
+        <attr name="useak_loadingText" format="string" />
+        <attr name="useak_loadingTextSize" format="dimension" />
     </declare-styleable>
 </resources>
