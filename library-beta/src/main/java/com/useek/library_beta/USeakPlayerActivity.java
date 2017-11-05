@@ -1,7 +1,7 @@
 package com.useek.library_beta;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageButton;
 
@@ -14,7 +14,7 @@ public class USeakPlayerActivity extends AppCompatActivity {
     private String mGameId;
     private String mUserId;
 
-    private USeakPlayerCloseListener mListener;
+    private static USeakPlayerCloseListener mListener;
 
     private ImageButton closeButton;
     private USeakPlayerView useakPlayerView;
@@ -48,11 +48,8 @@ public class USeakPlayerActivity extends AppCompatActivity {
         this.finish();
     }
 
-    public void setUSeakPlayerCloseListener(USeakPlayerCloseListener listener) {
-        this.mListener = listener;
-        if (useakPlayerView != null) {
-            useakPlayerView.setPlayerListener(mListener);
-        }
+    public static void setUSeakPlayerCloseListener(USeakPlayerCloseListener listener) {
+        USeakPlayerActivity.mListener = listener;
     }
 
     public void setGameId(String gameId) {

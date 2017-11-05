@@ -3,11 +3,14 @@ package com.useek.useak_beta;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.webkit.WebResourceError;
 import android.widget.Button;
 
 import com.useek.library_beta.USeakManager;
 import com.useek.library_beta.USeakPlayerActivity;
+import com.useek.library_beta.USeakPlayerCloseListener;
 
 import static com.useek.library_beta.USeakPlayerActivity.USEAK_GAME_ID;
 import static com.useek.library_beta.USeakPlayerActivity.USEAK_USER_ID;
@@ -32,6 +35,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onPressPlayActivity() {
+
+        USeakPlayerActivity.setUSeakPlayerCloseListener(new USeakPlayerCloseListener() {
+            @Override
+            public void didClosed() {
+                Log.d("USeak Sample", "didClose()");
+            }
+
+            @Override
+            public void didFailedWithError(WebResourceError error) {
+                Log.d("USeak Sample", "didFailedWithError()");
+            }
+
+            @Override
+            public void didStartLoad() {
+                Log.d("USeak Sample", "didStartLoad()");
+            }
+
+            @Override
+            public void didFinishLoad() {
+                Log.d("USeak Sample", "didFinishLoad()");
+            }
+        });
+
         Intent intent = new Intent(this, USeakPlayerActivity.class);
         intent.putExtra(USEAK_USER_ID, "113");
         intent.putExtra(USEAK_GAME_ID, "496953");
