@@ -3,17 +3,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.useek.library_beta.USeakPlayerFragment">
+    tools:context="com.useek.library_beta.USeekPlayerFragment">
 
-    <com.useek.library_beta.USeakPlayerView
-        android:id="@+id/useak_player_view"
+    <com.useek.library_beta.USeekPlayerView
+        android:id="@+id/useek_player_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </com.useek.library_beta.USeakPlayerView>
+    </com.useek.library_beta.USeekPlayerView>
 
     <ImageButton
-        android:id="@+id/useak_fragment_close_button"
+        android:id="@+id/useek_fragment_close_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@mipmap/icon_close"

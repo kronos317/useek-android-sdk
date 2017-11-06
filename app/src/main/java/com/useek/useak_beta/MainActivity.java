@@ -8,12 +8,12 @@ import android.view.View;
 import android.webkit.WebResourceError;
 import android.widget.Button;
 
-import com.useek.library_beta.USeakManager;
-import com.useek.library_beta.USeakPlayerActivity;
-import com.useek.library_beta.USeakPlayerCloseListener;
+import com.useek.library_beta.USeekManager;
+import com.useek.library_beta.USeekPlayerActivity;
+import com.useek.library_beta.USeekPlayerCloseListener;
 
-import static com.useek.library_beta.USeakPlayerActivity.USEAK_GAME_ID;
-import static com.useek.library_beta.USeakPlayerActivity.USEAK_USER_ID;
+import static com.useek.library_beta.USeekPlayerActivity.USEAK_GAME_ID;
+import static com.useek.library_beta.USeekPlayerActivity.USEAK_USER_ID;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        USeakManager.sharedInstance().setPublisherId("a839793e879c8d0237124a8400e31477");
+        USeekManager.sharedInstance().setPublisherId("a839793e879c8d0237124a8400e31477");
 
         setContentView(R.layout.activity_main);
 
@@ -48,11 +48,20 @@ public class MainActivity extends AppCompatActivity {
                 onPressedCustomViewSampleActivity();
             }
         });
+
+        Button button3 = findViewById(R.id.main_activity_programmatically_custom_view_button);
+        button3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onPressedProgrammaticallyCustomViewSampleActivity();
+            }
+        });
+
     }
 
     public void onPressPlayActivity() {
 
-        USeakPlayerActivity.setUSeakPlayerCloseListener(new USeakPlayerCloseListener() {
+        USeekPlayerActivity.setUSeakPlayerCloseListener(new USeekPlayerCloseListener() {
             @Override
             public void didClosed() {
                 Log.d("USeak Sample", "didClose()");
@@ -74,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Intent intent = new Intent(this, USeakPlayerActivity.class);
+        Intent intent = new Intent(this, USeekPlayerActivity.class);
         intent.putExtra(USEAK_USER_ID, "113");
         intent.putExtra(USEAK_GAME_ID, "496953");
         startActivity(intent);
@@ -87,6 +96,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void onPressedCustomViewSampleActivity() {
         Intent intent = new Intent(this, CustomViewSampleActivity.class);
+        startActivity(intent);
+    }
+
+    public void onPressedProgrammaticallyCustomViewSampleActivity() {
+        Intent intent = new Intent(this, CustomViewProgrammaticallyActivity.class);
         startActivity(intent);
     }
 }

@@ -9,8 +9,8 @@ import android.webkit.WebResourceError;
 import android.widget.Button;
 import android.widget.FrameLayout;
 
-import com.useek.library_beta.USeakPlayerCloseListener;
-import com.useek.library_beta.USeakPlayerFragment;
+import com.useek.library_beta.USeekPlayerCloseListener;
+import com.useek.library_beta.USeekPlayerFragment;
 
 public class FragmentSampleActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -47,8 +47,8 @@ public class FragmentSampleActivity extends AppCompatActivity implements View.On
     private void showUSeakFragment() {
         String gameId = "113";
         String userId = "496953";
-        USeakPlayerFragment fragment = USeakPlayerFragment.newInstance(gameId, userId);
-        fragment.setUSeakPlayerCloseListener(new USeakPlayerCloseListener() {
+        USeekPlayerFragment fragment = USeekPlayerFragment.newInstance(gameId, userId);
+        fragment.setUSeakPlayerCloseListener(new USeekPlayerCloseListener() {
             @Override
             public void didClosed() {
                 removeUSeakFragment();

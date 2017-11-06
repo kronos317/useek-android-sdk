@@ -16,11 +16,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.useek.library_beta.USeakPlayerActivity" />
+        <activity android:name="com.useek.library_beta.USeekPlayerActivity" />
         <activity android:name=".FragmentSampleActivity" />
         <activity
             android:name=".CustomViewSampleActivity"
             android:label="@string/title_activity_custom_view_sample"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".CustomViewProgrammaticallyActivity"
+            android:label="@string/title_activity_custom_view_programmatically"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

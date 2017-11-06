@@ -8,7 +8,7 @@
         android:layout_height="match_parent">
 
         <WebView
-            android:id="@+id/useak_web_view"
+            android:id="@+id/useek_web_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -17,7 +17,7 @@
     </FrameLayout>
 
     <FrameLayout
-        android:id="@+id/useak_loading_mask_view"
+        android:id="@+id/useek_loading_mask_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:drawable/screen_background_dark_transparent">
@@ -37,7 +37,7 @@
                 android:scrollbarSize="@dimen/loading_text_size" />
 
             <TextView
-                android:id="@+id/useak_loading_text"
+                android:id="@+id/useek_loading_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"

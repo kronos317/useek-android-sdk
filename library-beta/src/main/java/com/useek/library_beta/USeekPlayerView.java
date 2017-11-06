@@ -20,10 +20,33 @@ import android.widget.TextView;
 import java.net.URL;
 
 /**
- * TODO: document your custom view class.
+ * This is custom layout which you can easily drop in XML resource or create anywhere in your code.
+ *
+ * There are 2 ways to use USeekPlayerView.
+ *
+ * 1. Add to XML resource layout file.
+
+         <com.useek.library_beta.USeekPlayerView
+          android:id="@+id/useek_player_view"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent" />
+
+ * 2. Add as a subview programmatically
+ *
+         useekView = new USeekPlayerView(this);
+         useekContainer.addView(
+             useekView.getView(),
+                 new LinearLayout.LayoutParams(
+                     ViewGroup.LayoutParams.MATCH_PARENT,
+                     ViewGroup.LayoutParams.MATCH_PARENT
+                 )
+             );
+         useekView.loadVideo("{gameId}", "{userId"});
+         useekView.setPlayerListener(this);
+ *
  */
 
-public class USeakPlayerView extends FrameLayout {
+public class USeekPlayerView extends FrameLayout {
 
     private final String tagName = getResources().getString(R.string.library_name);
 
@@ -37,40 +60,48 @@ public class USeakPlayerView extends FrameLayout {
     private VideoLoadStatus status = VideoLoadStatus.NONE;
     private Boolean isLoadingMaskHidden = false;
 
-    private USeakPlayerListener playerListener;
+    private USeekPlayerListener playerListener;
 
     private String mLoadingTextString;
 
-    public USeakPlayerView(Context context) {
+    private View mCustomView;
+    private LayoutInflater mInflater;
+
+    /**
+     * Structures
+     * @param context
+     */
+    public USeekPlayerView(Context context) {
         super(context);
+        mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         init(context, null, 0);
     }
 
-    public USeakPlayerView(Context context, AttributeSet attrs) {
+    public USeekPlayerView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs, 0);
     }
 
-    public USeakPlayerView(Context context, AttributeSet attrs, int defStyle) {
+    public USeekPlayerView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init(context, attrs, defStyle);
     }
 
     private void init(Context context, AttributeSet attrs, int defStyle) {
 
-        View view = LayoutInflater.from(context).inflate(R.layout.useak_view, this, true);
-        webView = view.findViewById(R.id.useak_web_view);
-        loadingMaskView = view.findViewById(R.id.useak_loading_mask_view);
-        loadingTextView = view.findViewById(R.id.useak_loading_text);
+        View view = LayoutInflater.from(context).inflate(R.layout.useek_view, this, true);
+        webView = view.findViewById(R.id.useek_web_view);
+        loadingMaskView = view.findViewById(R.id.useek_loading_mask_view);
+        loadingTextView = view.findViewById(R.id.useek_loading_text);
 
         this.isLoadingMaskHidden = false;
 
         // Load attributes
         final TypedArray a = getContext().obtainStyledAttributes(
-                attrs, R.styleable.USeakPlayerView, defStyle, 0);
+                attrs, R.styleable.USeekPlayerView, defStyle, 0);
 
-        if (a.hasValue(R.styleable.USeakPlayerView_useak_loadingText)) {
-            this.mLoadingTextString = a.getString(R.styleable.USeakPlayerView_useak_loadingText);
+        if (a.hasValue(R.styleable.USeekPlayerView_useek_loadingText)) {
+            this.mLoadingTextString = a.getString(R.styleable.USeekPlayerView_useek_loadingText);
             this.loadingTextView.setText(this.mLoadingTextString);
         }
 
@@ -78,15 +109,31 @@ public class USeakPlayerView extends FrameLayout {
     }
 
     /**
-     * Set Game Id for ...
-     * @param gameId
+     * Create USeekPlayerView programmatically
+     *
+     * @return instance object of USeekPlayerView
+     */
+    public View getView() {
+        if (mCustomView == null) {
+            mCustomView = mInflater.inflate(R.layout.useek_view, null);
+            webView = mCustomView.findViewById(R.id.useek_web_view);
+            loadingMaskView = mCustomView.findViewById(R.id.useek_loading_mask_view);
+            loadingTextView = mCustomView.findViewById(R.id.useek_loading_text);
+
+            this.isLoadingMaskHidden = false;
+        }
+        return mCustomView;
+    }
+    /**
+     * Set unique game id provided by USeek
+     * @param gameId String, Non-nullable
      */
     public void setGameId(String gameId) {
         this.gameId = gameId;
     }
 
     /**
-     * Get Game Id
+     * Get unique game id
      * @return gameId: String
      */
     public String getGameId() {
@@ -94,15 +141,15 @@ public class USeakPlayerView extends FrameLayout {
     }
 
     /**
-     * Set User Id for ...
-     * @param userId
+     * Set user's unique id registered on USeek
+     * @param userId    Nullable
      */
     public void setUserId(String userId) {
         this.userId = userId;
     }
 
     /**
-     * Get User Id
+     * Get user's unique id registered on USeek
      * @return userId: String
      */
     public String getUserId() {
@@ -110,8 +157,9 @@ public class USeakPlayerView extends FrameLayout {
     }
 
     /**
-     * Get
-     * @return
+     * Get status of video loading
+     *
+     * @return one of NONE, LOAD_STARTED, LOADED, LOAD_FAILED
      */
     public VideoLoadStatus getStatus() {
         return status;
@@ -121,11 +169,15 @@ public class USeakPlayerView extends FrameLayout {
         this.status = status;
     }
 
-    public void setPlayerListener(USeakPlayerListener playerListener) {
+    /**
+     * Set listener for video loading status
+     * @param playerListener
+     */
+    public void setPlayerListener(USeekPlayerListener playerListener) {
         this.playerListener = playerListener;
     }
 
-    private USeakPlayerListener getPlayerListener() {
+    private USeekPlayerListener getPlayerListener() {
         return playerListener;
     }
 
@@ -136,7 +188,7 @@ public class USeakPlayerView extends FrameLayout {
     public URL generateVideoUrl() {
         if (this.validateConfiguration()) {
             String urlString = String.format("https://www.useek.com/sdk/1.0/%s/%s/play",
-                    USeakManager.sharedInstance().getPublisherId(),
+                    USeekManager.sharedInstance().getPublisherId(),
                     this.getGameId());
             if (this.getUserId() != null && this.getUserId().length() > 0) {
                 urlString = urlString + String.format("?external_user_id=%s", this.getUserId());
@@ -159,7 +211,7 @@ public class USeakPlayerView extends FrameLayout {
     public Boolean validateConfiguration() {
         Boolean isValid = true;
 
-        String publisherId = USeakManager.sharedInstance().getPublisherId();
+        String publisherId = USeekManager.sharedInstance().getPublisherId();
 
         if (publisherId == null) {
             isValid = false;
@@ -188,8 +240,8 @@ public class USeakPlayerView extends FrameLayout {
 
     /**
      * Load Video with GameId and UserId
-     * @param gameId
-     * @param userId
+     * @param gameId    unique game id provided by USeek, not nullable
+     * @param userId    user's unique id registered in USeek, nullable
      */
     public void loadVideo(String gameId, String userId) {
         this.setGameId(gameId);
@@ -199,7 +251,7 @@ public class USeakPlayerView extends FrameLayout {
 
         URL url = this.generateVideoUrl();
         if (url == null) {
-            Log.e(tagName, "Invalid USeak URL");
+            Log.e(tagName, "Invalid USeek URL");
             return;
         }
 
@@ -207,7 +259,7 @@ public class USeakPlayerView extends FrameLayout {
         this.initializeWebView();
 
         /** Set webView listener */
-        final USeakPlayerView _this = this;
+        final USeekPlayerView _this = this;
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
@@ -247,6 +299,9 @@ public class USeakPlayerView extends FrameLayout {
         }
     }
 
+    /**
+     * Start loading video(web view)
+     */
     private void startedLoadingWebView() {
         Log.d(tagName, "WebView didStartLoad");
 
@@ -265,6 +320,9 @@ public class USeakPlayerView extends FrameLayout {
 
     }
 
+    /**
+     * Finished loading video(web view)
+     */
     private void finishedLoadingWebView() {
         Log.d(tagName, "WebView didFinishLoad");
 
@@ -287,6 +345,9 @@ public class USeakPlayerView extends FrameLayout {
 
     }
 
+    /**
+     * Failed loading video(web view)
+     */
     private void failedLoadingWebView(WebResourceError error) {
         String errorString = error.toString();
         if (errorString == null) {

@@ -6,7 +6,7 @@ import android.webkit.WebResourceError;
  * Created by Chris Lin on 11/4/2017.
  */
 
-public interface USeakPlayerListener {
+public interface USeekPlayerListener {
 
     /**
      * Called when player detected an error while loading the video.

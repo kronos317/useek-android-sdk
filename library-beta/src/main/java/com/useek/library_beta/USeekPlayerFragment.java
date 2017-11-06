@@ -10,13 +10,12 @@ import android.widget.ImageButton;
 
 /**
  * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link USeakPlayerCloseListener} interface
- * to handle interaction events.
- * Use the {@link USeakPlayerFragment#newInstance} factory method to
+ * Activities that contain this fragment can implement the
+ * {@link USeekPlayerCloseListener} interface to handle interaction events.
+ * Use the {@link USeekPlayerFragment#newInstance} construct method to
  * create an instance of this fragment.
  */
-public class USeakPlayerFragment extends Fragment {
+public class USeekPlayerFragment extends Fragment {
 
     private static final String ARG_GAME_ID = "gameId";
     private static final String ARG_USER_ID = "userId";
@@ -24,25 +23,25 @@ public class USeakPlayerFragment extends Fragment {
     private String mGameId;
     private String mUserId;
 
-    private USeakPlayerCloseListener mListener;
+    private USeekPlayerCloseListener mListener;
 
     private ImageButton closeButton;
-    private USeakPlayerView useakPlayerView;
+    private USeekPlayerView useekPlayerView;
 
-    public USeakPlayerFragment() {
+    public USeekPlayerFragment() {
         // Required empty public constructor
     }
 
     /**
-     * Use this factory method to create a new instance of
+     * Use this construct method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param gameId
-     * @param userId
-     * @return A new instance of fragment USeakPlayerFragment.
+     * @param gameId    unique game id provided by USeek, not nullable
+     * @param userId    user's unique id registered in USeek, nullable
+     * @return A new instance of USeekPlayerFragment.
      */
-    public static USeakPlayerFragment newInstance(String gameId, String userId) {
-        USeakPlayerFragment fragment = new USeakPlayerFragment();
+    public static USeekPlayerFragment newInstance(String gameId, String userId) {
+        USeekPlayerFragment fragment = new USeekPlayerFragment();
         Bundle args = new Bundle();
         args.putString(ARG_GAME_ID, gameId);
         args.putString(ARG_USER_ID, userId);
@@ -62,16 +61,16 @@ public class USeakPlayerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_useak, container, false);
-        closeButton = view.findViewById(R.id.useak_fragment_close_button);
+        View view = inflater.inflate(R.layout.fragment_useek, container, false);
+        closeButton = view.findViewById(R.id.useek_fragment_close_button);
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onCloseButtonPressed();
             }
         });
-        useakPlayerView = view.findViewById(R.id.useak_player_view);
-        useakPlayerView.setPlayerListener(mListener);
+        useekPlayerView = view.findViewById(R.id.useek_player_view);
+        useekPlayerView.setPlayerListener(mListener);
         return view;
     }
 
@@ -84,11 +83,11 @@ public class USeakPlayerFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof USeakPlayerCloseListener) {
-            mListener = (USeakPlayerCloseListener) context;
+        if (context instanceof USeekPlayerCloseListener) {
+            mListener = (USeekPlayerCloseListener) context;
         }
-        if (useakPlayerView != null) {
-            useakPlayerView.loadVideo(this.mGameId, this.mUserId);
+        if (useekPlayerView != null) {
+            useekPlayerView.loadVideo(this.mGameId, this.mUserId);
         }
     }
 
@@ -98,10 +97,16 @@ public class USeakPlayerFragment extends Fragment {
         mListener = null;
     }
 
-    public void setUSeakPlayerCloseListener(USeakPlayerCloseListener listener) {
+    /**
+     * Setting USeekPlayerListener like as start, completed, failed loading video
+     *
+     * @param listener  handle listener of USeekPlayerCloseListener
+     *
+     */
+    public void setUSeekPlayerCloseListener(USeekPlayerCloseListener listener) {
         this.mListener = listener;
-        if (useakPlayerView != null) {
-            useakPlayerView.setPlayerListener(mListener);
+        if (useekPlayerView != null) {
+            useekPlayerView.setPlayerListener(mListener);
         }
     }
 
