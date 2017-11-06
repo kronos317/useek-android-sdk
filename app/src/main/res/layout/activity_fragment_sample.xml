@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.useek.useak_beta.FragmentSampleActivity">
+    tools:context="com.useek.useek_example.FragmentSampleActivity">
 
     <FrameLayout
         android:id="@+id/fragment_container"
@@ -23,7 +23,7 @@
         android:gravity="center">
 
         <Button
-            android:id="@+id/fragment_sample_show_useak"
+            android:id="@+id/fragment_sample_show_useek"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

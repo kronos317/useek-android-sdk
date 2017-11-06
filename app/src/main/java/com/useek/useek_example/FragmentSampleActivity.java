@@ -1,4 +1,4 @@
-package com.useek.useak_beta;
+package com.useek.useek_example;
 
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -15,7 +15,7 @@ import com.useek.library_beta.USeekPlayerFragment;
 public class FragmentSampleActivity extends AppCompatActivity implements View.OnClickListener {
 
     FrameLayout fragmentContainer;
-    Button buttonShowUSeakView;
+    Button buttonShowUSeekView;
     Button buttonRemoveFragment;
 
     @Override
@@ -24,49 +24,49 @@ public class FragmentSampleActivity extends AppCompatActivity implements View.On
         setContentView(R.layout.activity_fragment_sample);
 
         fragmentContainer = findViewById(R.id.fragment_container);
-        buttonShowUSeakView = findViewById(R.id.fragment_sample_show_useak);
+        buttonShowUSeekView = findViewById(R.id.fragment_sample_show_useek);
         buttonRemoveFragment = findViewById(R.id.fragment_sample_remove_fragment);
 
-        buttonShowUSeakView.setOnClickListener(this);
+        buttonShowUSeekView.setOnClickListener(this);
         buttonRemoveFragment.setOnClickListener(this);
 
-        buttonShowUSeakView.setEnabled(true);
+        buttonShowUSeekView.setEnabled(true);
         buttonRemoveFragment.setEnabled(false);
     }
 
 
     @Override
     public void onClick(View v) {
-        if (v == buttonShowUSeakView) {
-            showUSeakFragment();
+        if (v == buttonShowUSeekView) {
+            showUSeekFragment();
         } else if (v == buttonRemoveFragment) {
-            removeUSeakFragment();
+            removeUSeekFragment();
         }
     }
 
-    private void showUSeakFragment() {
+    private void showUSeekFragment() {
         String gameId = "113";
         String userId = "496953";
         USeekPlayerFragment fragment = USeekPlayerFragment.newInstance(gameId, userId);
-        fragment.setUSeakPlayerCloseListener(new USeekPlayerCloseListener() {
+        fragment.setUSeekPlayerCloseListener(new USeekPlayerCloseListener() {
             @Override
             public void didClosed() {
-                removeUSeakFragment();
+                removeUSeekFragment();
             }
 
             @Override
             public void didFailedWithError(WebResourceError error) {
-                Log.d("USeak Sample", "didFailedWithError video");
+                Log.d("USeek Sample", "didFailedWithError video");
             }
 
             @Override
             public void didStartLoad() {
-                Log.d("USeak Sample", "didStartLoad video");
+                Log.d("USeek Sample", "didStartLoad video");
             }
 
             @Override
             public void didFinishLoad() {
-                Log.d("USeak Sample", "didFinishLoad video");
+                Log.d("USeek Sample", "didFinishLoad video");
             }
         });
         getSupportFragmentManager()
@@ -74,11 +74,11 @@ public class FragmentSampleActivity extends AppCompatActivity implements View.On
                 .add(R.id.fragment_container, fragment)
                 .commit();
 
-        buttonShowUSeakView.setEnabled(false);
+        buttonShowUSeekView.setEnabled(false);
         buttonRemoveFragment.setEnabled(true);
     }
 
-    private void removeUSeakFragment() {
+    private void removeUSeekFragment() {
         getSupportFragmentManager()
                 .beginTransaction()
                 .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
@@ -86,7 +86,7 @@ public class FragmentSampleActivity extends AppCompatActivity implements View.On
                 .remove(getSupportFragmentManager().findFragmentById(R.id.fragment_container))
                 .commit();
 
-        buttonShowUSeakView.setEnabled(true);
+        buttonShowUSeekView.setEnabled(true);
         buttonRemoveFragment.setEnabled(false);
     }
 }

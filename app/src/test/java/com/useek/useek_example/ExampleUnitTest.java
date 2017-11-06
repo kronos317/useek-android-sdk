@@ -1,4 +1,4 @@
-package com.useek.useak_beta;
+package com.useek.useek_example;
 
 import org.junit.Test;
 

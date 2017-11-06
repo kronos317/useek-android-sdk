@@ -1,4 +1,4 @@
-package com.useek.useak_beta;
+package com.useek.useek_example;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.useek.useak_beta", appContext.getPackageName());
+        assertEquals("com.useek.useek_example", appContext.getPackageName());
     }
 }

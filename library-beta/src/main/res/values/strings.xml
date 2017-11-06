@@ -1,5 +1,5 @@
 <resources>
-    <string name="library_name">USeak</string>
+    <string name="library_name">USeek</string>
     <string name="app_name">library-beta</string>
 
     <string name="loading_webview">Please wait while loading...</string>

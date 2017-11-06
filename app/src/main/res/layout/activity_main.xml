@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.useek.useak_beta.MainActivity">
+    tools:context="com.useek.useek_example.MainActivity">
 
     <Button
         android:id="@+id/main_activity_button"

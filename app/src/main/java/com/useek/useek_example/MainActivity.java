@@ -1,4 +1,4 @@
-package com.useek.useak_beta;
+package com.useek.useek_example;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -12,8 +12,8 @@ import com.useek.library_beta.USeekManager;
 import com.useek.library_beta.USeekPlayerActivity;
 import com.useek.library_beta.USeekPlayerCloseListener;
 
-import static com.useek.library_beta.USeekPlayerActivity.USEAK_GAME_ID;
-import static com.useek.library_beta.USeekPlayerActivity.USEAK_USER_ID;
+import static com.useek.library_beta.USeekPlayerActivity.USEEK_GAME_ID;
+import static com.useek.library_beta.USeekPlayerActivity.USEEK_USER_ID;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -61,31 +61,31 @@ public class MainActivity extends AppCompatActivity {
 
     public void onPressPlayActivity() {
 
-        USeekPlayerActivity.setUSeakPlayerCloseListener(new USeekPlayerCloseListener() {
+        USeekPlayerActivity.setUSeekPlayerCloseListener(new USeekPlayerCloseListener() {
             @Override
             public void didClosed() {
-                Log.d("USeak Sample", "didClose()");
+                Log.d("USeek Sample", "didClose()");
             }
 
             @Override
             public void didFailedWithError(WebResourceError error) {
-                Log.d("USeak Sample", "didFailedWithError()");
+                Log.d("USeek Sample", "didFailedWithError()");
             }
 
             @Override
             public void didStartLoad() {
-                Log.d("USeak Sample", "didStartLoad()");
+                Log.d("USeek Sample", "didStartLoad()");
             }
 
             @Override
             public void didFinishLoad() {
-                Log.d("USeak Sample", "didFinishLoad()");
+                Log.d("USeek Sample", "didFinishLoad()");
             }
         });
 
         Intent intent = new Intent(this, USeekPlayerActivity.class);
-        intent.putExtra(USEAK_USER_ID, "113");
-        intent.putExtra(USEAK_GAME_ID, "496953");
+        intent.putExtra(USEEK_USER_ID, "113");
+        intent.putExtra(USEEK_GAME_ID, "496953");
         startActivity(intent);
     }
 

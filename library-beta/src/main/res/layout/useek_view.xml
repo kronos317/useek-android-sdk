@@ -50,7 +50,7 @@
 
     </FrameLayout>
 
-    <!--<com.useek.library_beta.USeakView-->
+    <!--<com.useek.library_beta.USeekView-->
         <!--android:layout_width="300dp"-->
         <!--android:layout_height="300dp"-->
         <!--android:background="#ccc"-->
@@ -59,6 +59,6 @@
         <!--app:exampleColor="#33b5e5"-->
         <!--app:exampleDimension="24sp"-->
         <!--app:exampleDrawable="@android:drawable/ic_menu_add"-->
-        <!--app:exampleString="Hello, USeakView" />-->
+        <!--app:exampleString="Hello, USeekView" />-->
 
 </FrameLayout>
