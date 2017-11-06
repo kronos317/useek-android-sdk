@@ -25,12 +25,12 @@ import java.net.URL;
  * There are 2 ways to use USeekPlayerView.
  *
  * 1. Add to XML resource layout file.
-
-         <com.useek.library_beta.USeekPlayerView
-          android:id="@+id/useek_player_view"
-          android:layout_width="match_parent"
-          android:layout_height="match_parent" />
-
+ *
+ *        com.useek.library_beta.USeekPlayerView
+ *        android:id="@+id/useek_player_view"
+ *        android:layout_width="match_parent"
+ *        android:layout_height="match_parent"
+ *
  * 2. Add as a subview programmatically
  *
          useekView = new USeekPlayerView(this);
@@ -69,7 +69,7 @@ public class USeekPlayerView extends FrameLayout {
 
     /**
      * Structures
-     * @param context
+     * @param context Activity Context
      */
     public USeekPlayerView(Context context) {
         super(context);
@@ -171,7 +171,7 @@ public class USeekPlayerView extends FrameLayout {
 
     /**
      * Set listener for video loading status
-     * @param playerListener
+     * @param playerListener    USeekPlayerListener
      */
     public void setPlayerListener(USeekPlayerListener playerListener) {
         this.playerListener = playerListener;

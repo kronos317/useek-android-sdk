@@ -23,22 +23,18 @@ import android.widget.ImageButton;
  *
  *
             USeekPlayerActivity.setUSeekPlayerCloseListener(new USeekPlayerCloseListener() {
-                @Override
                 public void didClosed() {
                     Log.d("USeek Sample", "didClose()");
                 }
 
-                @Override
                 public void didFailedWithError(WebResourceError error) {
                     Log.d("USeek Sample", "didFailedWithError()");
                 }
 
-                @Override
                 public void didStartLoad() {
                     Log.d("USeek Sample", "didStartLoad()");
                 }
 
-                @Override
                 public void didFinishLoad() {
                     Log.d("USeek Sample", "didFinishLoad()");
                 }

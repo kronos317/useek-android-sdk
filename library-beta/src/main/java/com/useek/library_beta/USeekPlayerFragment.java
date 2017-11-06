@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 /**
- * A simple {@link Fragment} subclass.
  * Activities that contain this fragment can implement the
  * {@link USeekPlayerCloseListener} interface to handle interaction events.
  * Use the {@link USeekPlayerFragment#newInstance} construct method to
