@@ -49,4 +49,19 @@ public class USeakPlaybackResultDataModel {
         }
     }
 
+    public String getGameId() {
+        return gameId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public Boolean getFinished() {
+        return finished;
+    }
 }

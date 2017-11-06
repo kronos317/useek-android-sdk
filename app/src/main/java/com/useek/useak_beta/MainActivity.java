@@ -32,6 +32,22 @@ public class MainActivity extends AppCompatActivity {
                 onPressPlayActivity();
             }
         });
+
+        Button button1 = findViewById(R.id.main_activity_fragment_button);
+        button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onPressedFragmentSampleActivity();
+            }
+        });
+
+        Button button2 = findViewById(R.id.main_activity_custom_view_button);
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onPressedCustomViewSampleActivity();
+            }
+        });
     }
 
     public void onPressPlayActivity() {
@@ -61,6 +77,16 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, USeakPlayerActivity.class);
         intent.putExtra(USEAK_USER_ID, "113");
         intent.putExtra(USEAK_GAME_ID, "496953");
+        startActivity(intent);
+    }
+
+    public void onPressedFragmentSampleActivity() {
+        Intent intent = new Intent(this, FragmentSampleActivity.class);
+        startActivity(intent);
+    }
+
+    public void onPressedCustomViewSampleActivity() {
+        Intent intent = new Intent(this, CustomViewSampleActivity.class);
         startActivity(intent);
     }
 }

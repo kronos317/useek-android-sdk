@@ -23,16 +23,18 @@
         android:gravity="center">
 
         <Button
+            android:id="@+id/fragment_sample_show_useak"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Show USeek"/>
 
         <Button
+            android:id="@+id/fragment_sample_remove_fragment"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Replace Another"/>
+            android:text="Remove Fragment"/>
 
     </LinearLayout>
 

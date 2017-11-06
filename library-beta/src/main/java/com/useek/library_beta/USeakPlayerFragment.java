@@ -79,7 +79,6 @@ public class USeakPlayerFragment extends Fragment {
         if (mListener != null) {
             mListener.didClosed();
         }
-
     }
 
     @Override
