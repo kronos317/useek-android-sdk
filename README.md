@@ -29,7 +29,6 @@ The USeek interactive advertising solution turns your videos into engaging exper
 
 Minimum API version : **15**
 
-Development Environment : **Android Studio 3.0**
 
 Installation
 ==========================
