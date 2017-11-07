@@ -204,27 +204,7 @@ import static com.useek.library_beta.USeekPlayerActivity.USEEK_USER_ID;
 
         USeekManager.sharedInstance().setPublisherId("{publisher id}");
 
-        USeekPlayerActivity.setUSeekPlayerCloseListener(new USeekPlayerCloseListener() {
-            @Override
-            public void useekPlayerDidClosed(USeekPlayerView useekPlayerView) {
-                Log.d("USeek Sample", "useekPlayerDidClosed()");
-            }
-
-            @Override
-            public void useekPlayerDidFailWithError(USeekPlayerView useekPlayerView, WebResourceError error) {
-                Log.d("USeek Sample", "useekPlayerDidFailWithError()");
-            }
-
-            @Override
-            public void useekPlayerDidStartLoad(USeekPlayerView useekPlayerView) {
-                Log.d("USeek Sample", "useekPlayerDidStartLoad()");
-            }
-
-            @Override
-            public void useekPlayerDidFinishLoad(USeekPlayerView useekPlayerView) {
-                Log.d("USeek Sample", "useekPlayerDidFinishLoad()");
-            }
-        });
+        USeekPlayerActivity.setUSeekPlayerCloseListener(this);
         USeekPlayerActivity.setShowCloseButton(true);
         USeekPlayerActivity.setLoadingText("Loading video...");
 
