@@ -9,23 +9,26 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.useek.useek_example.MainActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.useek.library_beta.USeekPlayerActivity" />
-        <activity android:name="com.useek.useek_example.FragmentSampleActivity" />
+        <activity android:name="com.useek.library_beta.USeekPlayerActivity"
+            android:label="Activity"/>
+        <activity android:name=".FragmentSampleActivity"
+            android:label="Fragment"/>
         <activity
-            android:name="com.useek.useek_example.CustomViewSampleActivity"
-            android:label="@string/title_activity_custom_view_sample"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:name=".CustomViewSampleActivity"
+            android:label="Custom View"/>
         <activity
-            android:name="com.useek.useek_example.CustomViewProgrammaticallyActivity"
-            android:label="@string/title_activity_custom_view_programmatically"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:name=".CustomViewProgrammaticallyActivity"
+            android:label="Custom View (Programmatically)" />
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings" />
     </application>
 
 </manifest>

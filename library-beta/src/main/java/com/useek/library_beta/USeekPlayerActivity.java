@@ -23,20 +23,20 @@ import android.widget.ImageButton;
  *
  *
             USeekPlayerActivity.setUSeekPlayerCloseListener(new USeekPlayerCloseListener() {
-                public void didClosed() {
+                public void useekPlayerDidClosed() {
                     Log.d("USeek Sample", "didClose()");
                 }
 
-                public void didFailedWithError(WebResourceError error) {
-                    Log.d("USeek Sample", "didFailedWithError()");
+                public void useekPlayerDidFailWithError(WebResourceError error) {
+                    Log.d("USeek Sample", "useekPlayerDidFailWithError()");
                 }
 
-                public void didStartLoad() {
-                    Log.d("USeek Sample", "didStartLoad()");
+                public void useekPlayerDidStartLoad() {
+                    Log.d("USeek Sample", "useekPlayerDidStartLoad()");
                 }
 
-                public void didFinishLoad() {
-                    Log.d("USeek Sample", "didFinishLoad()");
+                public void useekPlayerDidFinishLoad() {
+                    Log.d("USeek Sample", "useekPlayerDidFinishLoad()");
                 }
             });
  *
@@ -49,10 +49,27 @@ public class USeekPlayerActivity extends AppCompatActivity {
     // constant for game id parameter name
     public static final String USEEK_GAME_ID = "gameId";
 
+    private static USeekPlayerCloseListener mListener;
+
+    public static void setUSeekPlayerCloseListener(USeekPlayerCloseListener listener) {
+        USeekPlayerActivity.mListener = listener;
+    }
+
+    private static boolean showCloseButton = true;
+
+    public static void setShowCloseButton(boolean showCloseButton) {
+        USeekPlayerActivity.showCloseButton = showCloseButton;
+    }
+
+    public static void setLoadingText(String loadingText) {
+        USeekPlayerActivity.loadingText = loadingText;
+    }
+
+    private static String loadingText;
+
+
     private String mGameId;
     private String mUserId;
-
-    private static USeekPlayerCloseListener mListener;
 
     private ImageButton closeButton;
     private USeekPlayerView useekPlayerView;
@@ -72,23 +89,26 @@ public class USeekPlayerActivity extends AppCompatActivity {
                 onCloseButtonPressed();
             }
         });
+        if (showCloseButton)
+            closeButton.setVisibility(View.VISIBLE);
+        else
+            closeButton.setVisibility(View.INVISIBLE);
 
         useekPlayerView = findViewById(R.id.useek_activity_player_view);
         useekPlayerView.setPlayerListener(mListener);
-
+        if (loadingText != null) {
+            useekPlayerView.setLoadingTextString(loadingText);
+        }
         useekPlayerView.loadVideo(mGameId, mUserId);
     }
 
-    public void onCloseButtonPressed() {
+    protected void onCloseButtonPressed() {
         if (mListener != null) {
-            mListener.didClosed();
+            mListener.useekPlayerDidClosed(useekPlayerView);
         }
         this.finish();
     }
 
-    public static void setUSeekPlayerCloseListener(USeekPlayerCloseListener listener) {
-        USeekPlayerActivity.mListener = listener;
-    }
 
     public void setGameId(String gameId) {
         this.mGameId = gameId;

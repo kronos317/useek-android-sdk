@@ -9,8 +9,10 @@ import android.webkit.WebResourceError;
 import android.widget.Button;
 import android.widget.FrameLayout;
 
+import com.useek.library_beta.USeekManager;
 import com.useek.library_beta.USeekPlayerCloseListener;
 import com.useek.library_beta.USeekPlayerFragment;
+import com.useek.library_beta.USeekPlayerView;
 
 public class FragmentSampleActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -32,6 +34,7 @@ public class FragmentSampleActivity extends AppCompatActivity implements View.On
 
         buttonShowUSeekView.setEnabled(true);
         buttonRemoveFragment.setEnabled(false);
+
     }
 
 
@@ -45,28 +48,35 @@ public class FragmentSampleActivity extends AppCompatActivity implements View.On
     }
 
     private void showUSeekFragment() {
-        String gameId = "113";
-        String userId = "496953";
-        USeekPlayerFragment fragment = USeekPlayerFragment.newInstance(gameId, userId);
+
+        ExampleSettingsManager settingsManager = ExampleSettingsManager.sharedInstance();
+        USeekManager.sharedInstance().setPublisherId(settingsManager.getPublisherId());
+
+        USeekPlayerFragment fragment = USeekPlayerFragment.newInstance(
+                settingsManager.getGameId(),
+                settingsManager.getUserId()
+        );
+        fragment.setShowCloseButton(settingsManager.isShowCloseButton());
+        fragment.setLoadingText(settingsManager.getLoadingText());
         fragment.setUSeekPlayerCloseListener(new USeekPlayerCloseListener() {
             @Override
-            public void didClosed() {
+            public void useekPlayerDidClosed(USeekPlayerView useekPlayerView) {
                 removeUSeekFragment();
             }
 
             @Override
-            public void didFailedWithError(WebResourceError error) {
-                Log.d("USeek Sample", "didFailedWithError video");
+            public void useekPlayerDidFailWithError(USeekPlayerView useekPlayerView, WebResourceError error) {
+                Log.d("USeek Sample", "useekPlayerDidFailWithError video");
             }
 
             @Override
-            public void didStartLoad() {
-                Log.d("USeek Sample", "didStartLoad video");
+            public void useekPlayerDidStartLoad(USeekPlayerView useekPlayerView) {
+                Log.d("USeek Sample", "useekPlayerDidStartLoad video");
             }
 
             @Override
-            public void didFinishLoad() {
-                Log.d("USeek Sample", "didFinishLoad video");
+            public void useekPlayerDidFinishLoad(USeekPlayerView useekPlayerView) {
+                Log.d("USeek Sample", "useekPlayerDidFinishLoad video");
             }
         });
         getSupportFragmentManager()

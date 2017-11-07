@@ -11,6 +11,7 @@ import android.widget.Button;
 import com.useek.library_beta.USeekManager;
 import com.useek.library_beta.USeekPlayerActivity;
 import com.useek.library_beta.USeekPlayerCloseListener;
+import com.useek.library_beta.USeekPlayerView;
 
 import static com.useek.library_beta.USeekPlayerActivity.USEEK_GAME_ID;
 import static com.useek.library_beta.USeekPlayerActivity.USEEK_USER_ID;
@@ -57,35 +58,47 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Button button4 = findViewById(R.id.main_activity_setting_button);
+        button4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onPressedSettings();
+            }
+        });
     }
 
     public void onPressPlayActivity() {
 
+        ExampleSettingsManager settingsManager = ExampleSettingsManager.sharedInstance();
+        USeekManager.sharedInstance().setPublisherId(settingsManager.getPublisherId());
+
         USeekPlayerActivity.setUSeekPlayerCloseListener(new USeekPlayerCloseListener() {
             @Override
-            public void didClosed() {
+            public void useekPlayerDidClosed(USeekPlayerView useekPlayerView) {
                 Log.d("USeek Sample", "didClose()");
             }
 
             @Override
-            public void didFailedWithError(WebResourceError error) {
-                Log.d("USeek Sample", "didFailedWithError()");
+            public void useekPlayerDidFailWithError(USeekPlayerView useekPlayerView, WebResourceError error) {
+                Log.d("USeek Sample", "useekPlayerDidFailWithError()");
             }
 
             @Override
-            public void didStartLoad() {
-                Log.d("USeek Sample", "didStartLoad()");
+            public void useekPlayerDidStartLoad(USeekPlayerView useekPlayerView) {
+                Log.d("USeek Sample", "useekPlayerDidStartLoad()");
             }
 
             @Override
-            public void didFinishLoad() {
-                Log.d("USeek Sample", "didFinishLoad()");
+            public void useekPlayerDidFinishLoad(USeekPlayerView useekPlayerView) {
+                Log.d("USeek Sample", "useekPlayerDidFinishLoad()");
             }
         });
+        USeekPlayerActivity.setShowCloseButton(settingsManager.isShowCloseButton());
+        USeekPlayerActivity.setLoadingText(settingsManager.getLoadingText());
 
         Intent intent = new Intent(this, USeekPlayerActivity.class);
-        intent.putExtra(USEEK_USER_ID, "113");
-        intent.putExtra(USEEK_GAME_ID, "496953");
+        intent.putExtra(USEEK_USER_ID, settingsManager.getUserId());
+        intent.putExtra(USEEK_GAME_ID, settingsManager.getGameId());
         startActivity(intent);
     }
 
@@ -101,6 +114,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void onPressedProgrammaticallyCustomViewSampleActivity() {
         Intent intent = new Intent(this, CustomViewProgrammaticallyActivity.class);
+        startActivity(intent);
+    }
+
+    public void onPressedSettings() {
+        Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
     }
 }

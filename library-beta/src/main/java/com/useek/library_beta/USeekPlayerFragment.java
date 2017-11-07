@@ -24,6 +24,18 @@ public class USeekPlayerFragment extends Fragment {
 
     private USeekPlayerCloseListener mListener;
 
+    public void setShowCloseButton(boolean showCloseButton) {
+        this.showCloseButton = showCloseButton;
+    }
+
+    private boolean showCloseButton = true;
+
+    public void setLoadingText(String loadingText) {
+        this.loadingText = loadingText;
+    }
+
+    private String loadingText;
+
     private ImageButton closeButton;
     private USeekPlayerView useekPlayerView;
 
@@ -68,14 +80,22 @@ public class USeekPlayerFragment extends Fragment {
                 onCloseButtonPressed();
             }
         });
+        if (showCloseButton)
+            closeButton.setVisibility(View.VISIBLE);
+        else
+            closeButton.setVisibility(View.INVISIBLE);
+
         useekPlayerView = view.findViewById(R.id.useek_player_view);
         useekPlayerView.setPlayerListener(mListener);
+        if (loadingText != null) {
+            useekPlayerView.setLoadingTextString(loadingText);
+        }
         return view;
     }
 
     public void onCloseButtonPressed() {
         if (mListener != null) {
-            mListener.didClosed();
+            mListener.useekPlayerDidClosed(useekPlayerView);
         }
     }
 

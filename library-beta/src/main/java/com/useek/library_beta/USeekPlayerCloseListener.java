@@ -8,7 +8,9 @@ public interface USeekPlayerCloseListener extends USeekPlayerListener {
 
     /**
      * Called when user clicked close button to dismiss the Activity or Fragment.
+     *
+     * @param useekPlayerView   USeekPlayerView object of closed
      */
-    void didClosed();
+    void useekPlayerDidClosed(USeekPlayerView useekPlayerView);
 
 }

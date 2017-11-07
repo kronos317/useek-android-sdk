@@ -33,16 +33,16 @@ import java.net.URL;
  *
  * 2. Add as a subview programmatically
  *
-         useekView = new USeekPlayerView(this);
-         useekContainer.addView(
-             useekView.getView(),
-                 new LinearLayout.LayoutParams(
-                     ViewGroup.LayoutParams.MATCH_PARENT,
-                     ViewGroup.LayoutParams.MATCH_PARENT
-                 )
-             );
-         useekView.loadVideo("{gameId}", "{userId"});
-         useekView.setPlayerListener(this);
+ *       useekView = new USeekPlayerView(this);
+ *       useekContainer.addView(
+ *           useekView.getView(),
+ *               new LinearLayout.LayoutParams(
+ *                   ViewGroup.LayoutParams.MATCH_PARENT,
+ *                   ViewGroup.LayoutParams.MATCH_PARENT
+ *               )
+ *           );
+ *       useekView.loadVideo("{gameId}", "{userId"});
+ *       useekView.setPlayerListener(this);
  *
  */
 
@@ -67,10 +67,6 @@ public class USeekPlayerView extends FrameLayout {
     private View mCustomView;
     private LayoutInflater mInflater;
 
-    /**
-     * Structures
-     * @param context Activity Context
-     */
     public USeekPlayerView(Context context) {
         super(context);
         mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -109,6 +105,14 @@ public class USeekPlayerView extends FrameLayout {
     }
 
     /**
+     * Set placeholder text for loading video
+     * @param loadingTextString     String to set placeholder text while loading video
+     */
+    public void setLoadingTextString(String loadingTextString) {
+        this.mLoadingTextString = mLoadingTextString;
+    }
+
+    /**
      * Create USeekPlayerView programmatically
      *
      * @return instance object of USeekPlayerView
@@ -124,9 +128,10 @@ public class USeekPlayerView extends FrameLayout {
         }
         return mCustomView;
     }
+
     /**
      * Set unique game id provided by USeek
-     * @param gameId String, Non-nullable
+     * @param gameId    String object of unique game id provided by USeek, Non-nullable
      */
     public void setGameId(String gameId) {
         this.gameId = gameId;
@@ -134,7 +139,7 @@ public class USeekPlayerView extends FrameLayout {
 
     /**
      * Get unique game id
-     * @return gameId: String
+     * @return gameId   String object of unique game id
      */
     public String getGameId() {
         return gameId;
@@ -142,7 +147,7 @@ public class USeekPlayerView extends FrameLayout {
 
     /**
      * Set user's unique id registered on USeek
-     * @param userId    Nullable
+     * @param userId    String object of user's unique id registered on USeek, Nullable
      */
     public void setUserId(String userId) {
         this.userId = userId;
@@ -150,28 +155,15 @@ public class USeekPlayerView extends FrameLayout {
 
     /**
      * Get user's unique id registered on USeek
-     * @return userId: String
+     * @return userId   String object of user's unique id
      */
     public String getUserId() {
         return userId;
     }
 
     /**
-     * Get status of video loading
-     *
-     * @return one of NONE, LOAD_STARTED, LOADED, LOAD_FAILED
-     */
-    public VideoLoadStatus getStatus() {
-        return status;
-    }
-
-    private void setStatus(VideoLoadStatus status) {
-        this.status = status;
-    }
-
-    /**
      * Set listener for video loading status
-     * @param playerListener    USeekPlayerListener
+     * @param playerListener    USeekPlayerListener instance
      */
     public void setPlayerListener(USeekPlayerListener playerListener) {
         this.playerListener = playerListener;
@@ -179,56 +171,6 @@ public class USeekPlayerView extends FrameLayout {
 
     private USeekPlayerListener getPlayerListener() {
         return playerListener;
-    }
-
-    /**
-     * Generate Video url
-     * @return url object with generated video url
-     */
-    public URL generateVideoUrl() {
-        if (this.validateConfiguration()) {
-            String urlString = String.format("https://www.useek.com/sdk/1.0/%s/%s/play",
-                    USeekManager.sharedInstance().getPublisherId(),
-                    this.getGameId());
-            if (this.getUserId() != null && this.getUserId().length() > 0) {
-                urlString = urlString + String.format("?external_user_id=%s", this.getUserId());
-            }
-            try {
-                URL url = new URL(urlString);
-                return url;
-            } catch (Exception e) {
-                return null;
-            }
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * Check validation for publish id and game id
-     * @return boolean for validate information
-     */
-    public Boolean validateConfiguration() {
-        Boolean isValid = true;
-
-        String publisherId = USeekManager.sharedInstance().getPublisherId();
-
-        if (publisherId == null) {
-            isValid = false;
-            Log.e(tagName, "Not set publisher id");
-        } else if (publisherId.length() == 0){
-            isValid = false;
-            Log.e(tagName, "Invalid publisher id");
-        }
-
-        if (this.getGameId() == null) {
-            isValid = false;
-            Log.e(tagName, "Not set game id");
-        } else if (this.getGameId().length() == 0) {
-            isValid = false;
-            Log.e(tagName, "Invalid game id");
-        }
-        return isValid;
     }
 
     /**
@@ -264,25 +206,75 @@ public class USeekPlayerView extends FrameLayout {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
-                _this.startedLoadingWebView();
+                _this.didStartLoadingWebView();
             }
 
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-                _this.finishedLoadingWebView();
+                _this.didFinishLoadingWebView();
             }
 
             @Override
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
                 super.onReceivedError(view, request, error);
-                _this.failedLoadingWebView(error);
+                _this.didFailLoadingWebView(error);
             }
         });
 
         /** Load Video URL */
         webView.loadUrl(url.toString());
 
+    }
+
+    /**
+     * Generate Video url
+     * @return url object with generated video url with publisher id, game id and user id
+     */
+    private URL generateVideoUrl() {
+        if (this.validateConfiguration()) {
+            String urlString = String.format("https://www.useek.com/sdk/1.0/%s/%s/play",
+                    USeekManager.sharedInstance().getPublisherId(),
+                    this.getGameId());
+            if (this.getUserId() != null && this.getUserId().length() > 0) {
+                urlString = urlString + String.format("?external_user_id=%s", this.getUserId());
+            }
+            try {
+                URL url = new URL(urlString);
+                return url;
+            } catch (Exception e) {
+                return null;
+            }
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Check validation for publish id and game id
+     * @return boolean for validate information
+     */
+    private Boolean validateConfiguration() {
+        Boolean isValid = true;
+
+        String publisherId = USeekManager.sharedInstance().getPublisherId();
+
+        if (publisherId == null) {
+            isValid = false;
+            Log.e(tagName, "Not set publisher id");
+        } else if (publisherId.length() == 0){
+            isValid = false;
+            Log.e(tagName, "Invalid publisher id");
+        }
+
+        if (this.getGameId() == null) {
+            isValid = false;
+            Log.e(tagName, "Not set game id");
+        } else if (this.getGameId().length() == 0) {
+            isValid = false;
+            Log.e(tagName, "Invalid game id");
+        }
+        return isValid;
     }
 
     private void initializeWebView() {
@@ -300,18 +292,18 @@ public class USeekPlayerView extends FrameLayout {
     }
 
     /**
-     * Start loading video(web view)
+     * Started loading video(web view)
      */
-    private void startedLoadingWebView() {
-        Log.d(tagName, "WebView didStartLoad");
+    private void didStartLoadingWebView() {
+        Log.d(tagName, "WebView didStartLoadingWebView");
 
-        if (this.getStatus() == VideoLoadStatus.NONE) {
+        if (this.status == VideoLoadStatus.NONE) {
             if (this.playerListener != null) {
-                this.playerListener.didStartLoad();
+                this.playerListener.useekPlayerDidStartLoad(this);
             }
         }
 
-        this.setStatus(VideoLoadStatus.LOAD_STARTED);
+        this.status = VideoLoadStatus.LOAD_STARTED;
         if (!this.isLoadingMaskHidden) {
             this.animateLoadingMaskToShow();
         } else {
@@ -323,18 +315,18 @@ public class USeekPlayerView extends FrameLayout {
     /**
      * Finished loading video(web view)
      */
-    private void finishedLoadingWebView() {
-        Log.d(tagName, "WebView didFinishLoad");
+    private void didFinishLoadingWebView() {
+        Log.d(tagName, "WebView didFinishLoadingWebView");
 
         if (this.status != VideoLoadStatus.LOAD_FAILED &&
                 this.status != VideoLoadStatus.LOADED) {
             if (this.playerListener != null) {
-                this.playerListener.didFinishLoad();
+                this.playerListener.useekPlayerDidFinishLoad(this);
             }
         }
 
         if (this.status != VideoLoadStatus.LOAD_FAILED) {
-            this.setStatus(VideoLoadStatus.LOADED);
+            this.status = VideoLoadStatus.LOADED;
         }
 
         if (!this.isLoadingMaskHidden) {
@@ -348,20 +340,20 @@ public class USeekPlayerView extends FrameLayout {
     /**
      * Failed loading video(web view)
      */
-    private void failedLoadingWebView(WebResourceError error) {
+    private void didFailLoadingWebView(WebResourceError error) {
         String errorString = error.toString();
         if (errorString == null) {
             errorString = "";
         }
-        Log.d(tagName, "WebView didFailLoad with Error:\n" + errorString);
+        Log.d(tagName, "WebView didFailLoadingWebView with Error:\n" + errorString);
 
         if (this.status != VideoLoadStatus.LOAD_FAILED) {
             if (this.playerListener != null) {
-                this.playerListener.didFailedWithError(error);
+                this.playerListener.useekPlayerDidFailWithError(this, error);
             }
         }
 
-        this.setStatus(VideoLoadStatus.LOAD_FAILED);
+        this.status = VideoLoadStatus.LOAD_FAILED;
 
         if (!this.isLoadingMaskHidden) {
             this.animateLoadingMaskToHide();
@@ -382,5 +374,13 @@ public class USeekPlayerView extends FrameLayout {
      */
     private void animateLoadingMaskToHide() {
         this.loadingMaskView.setVisibility(GONE);
+    }
+
+
+    enum VideoLoadStatus {
+        NONE,           // Not stated loading
+        LOAD_STARTED,   // Started loading
+        LOADED,         // Completed loading
+        LOAD_FAILED,    // Failed loading
     }
 }

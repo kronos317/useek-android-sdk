@@ -11,18 +11,23 @@ public interface USeekPlayerListener {
     /**
      * Called when player detected an error while loading the video.
      *
-     * @param error : The Error object with error information
+     * @param useekPlayerView   USeekPlayerView object of failed
+     * @param error             The Error object with error information
      */
-    void didFailedWithError(WebResourceError error);
+    void useekPlayerDidFailWithError(USeekPlayerView useekPlayerView, WebResourceError error);
 
     /**
-     * Called when player starts loading the video.
+     * Called when player did start loading the video.
+     *
+     * @param useekPlayerView   USeekPlayerView object of started loading
      */
-    void didStartLoad();
+    void useekPlayerDidStartLoad(USeekPlayerView useekPlayerView);
 
     /**
-     * Called when player finished loading the video.
+     * Called when player did finish loading the video.
+     *
+     * @param useekPlayerView   USeekPlayerView object of finished loading
      */
-    void didFinishLoad();
+    void useekPlayerDidFinishLoad(USeekPlayerView useekPlayerView);
 
 }

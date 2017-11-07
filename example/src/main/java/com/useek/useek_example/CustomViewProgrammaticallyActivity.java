@@ -12,7 +12,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.useek.library_beta.USeekManager;
-import com.useek.library_beta.USeekPlaybackResultDataModel;
 import com.useek.library_beta.USeekPlayerListener;
 import com.useek.library_beta.USeekPlayerView;
 
@@ -31,7 +30,7 @@ public class CustomViewProgrammaticallyActivity extends AppCompatActivity implem
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.content_custom_view_programmatically);
+        setContentView(R.layout.activity_custom_view_programmatically);
 
         useekContainer = findViewById(R.id.useek_container);
         addUSeekPlayerView();
@@ -58,6 +57,7 @@ public class CustomViewProgrammaticallyActivity extends AppCompatActivity implem
 
     private void addUSeekPlayerView() {
         useekView = new USeekPlayerView(this);
+        useekView.setLoadingTextString(ExampleSettingsManager.sharedInstance().getLoadingText());
         useekContainer.addView(
                 useekView.getView(),
                 new LinearLayout.LayoutParams(
@@ -77,9 +77,9 @@ public class CustomViewProgrammaticallyActivity extends AppCompatActivity implem
                     this.editTextUserId.getText().toString(),
                     new USeekManager.RequestPointsListener() {
                         @Override
-                        public void didSuccess(USeekPlaybackResultDataModel resultDataModel) {
+                        public void didSuccess(int points) {
                             textViewErrorLog.setText("");
-                            textViewScore.setText(String.valueOf(resultDataModel.getPoints()));
+                            textViewScore.setText(String.valueOf(points));
                             buttonGetScore.setEnabled(true);
                         }
 
@@ -121,17 +121,17 @@ public class CustomViewProgrammaticallyActivity extends AppCompatActivity implem
     /** USeekPlayerView listener */
 
     @Override
-    public void didFailedWithError(WebResourceError error) {
-        Log.d("USeek Sample", "didFailedWithError video");
+    public void useekPlayerDidFailWithError(USeekPlayerView useekPlayerView, WebResourceError error) {
+        Log.d("USeek Sample", "useekPlayerDidFailWithError video");
     }
 
     @Override
-    public void didStartLoad() {
-        Log.d("USeek Sample", "didStartLoad video");
+    public void useekPlayerDidStartLoad(USeekPlayerView useekPlayerView) {
+        Log.d("USeek Sample", "useekPlayerDidStartLoad video");
     }
 
     @Override
-    public void didFinishLoad() {
-        Log.d("USeek Sample", "didFinishLoad video");
+    public void useekPlayerDidFinishLoad(USeekPlayerView useekPlayerView) {
+        Log.d("USeek Sample", "useekPlayerDidFinishLoad video");
     }
 }
