@@ -127,7 +127,7 @@ public void openUSeekPlayerActivity() {
 ```
 
 
-### to get points score
+### How to get points score
 
 ```java
 USeekManager.sharedInstance().requestPoints("{game id}", "{user id}",
@@ -144,6 +144,7 @@ USeekManager.sharedInstance().requestPoints("{game id}", "{user id}",
         }
 );
 ```
+
 
 Properties
 ========
