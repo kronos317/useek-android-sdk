@@ -67,15 +67,8 @@ useekPlayerView.loadVideo(gameId, userId);
 
 There are some usage methods of USeek SDK.
 
-### 1. Adding ```USeekPlayerView```
+### Adding ```USeekPlayerView```
 #### Add ```USeekPlayerView``` to layout resource:
-```xml
-<com.useek.library_beta.USeekPlayerView
-    android:id="@+id/custom_activity_useek_view"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" />
-```
-If you want to change loading placeholder text of USeekPlayerView, add follow code in **USeekPlayerViewe** xml block.
 ```xml
 <com.useek.library_beta.USeekPlayerView
     android:id="@+id/custom_activity_useek_view"
@@ -83,117 +76,40 @@ If you want to change loading placeholder text of USeekPlayerView, add follow co
     android:layout_height="match_parent"
     app:useek_loadingText="Please wait while loading..." />
 ```
+```app:useek_loadingText``` paramter is optional value to change loading placeholder text.
+
 #### Implement ```USeekPlayerView``` code in your activity.
 ```java
-public class CustomViewSampleActivity extends AppCompatActivity {
-
-    USeekPlayerView useekPlayerView;
-    
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_custom_view_sample);
-        
-        useekPlayerView = findViewById(R.id.custom_activity_useek_view);
-        useekPlayerView.setPlayerListener(this);
-        
-        String gameId = "{game id}";
-        String userId = "{user id}";
-        useekPlayerView.loadVideo(gameId, userId);
-    }
+    useekPlayerView = findViewById(R.id.custom_activity_useek_view);
+    useekPlayerView.setPlayerListener(this);        
+    useekPlayerView.loadVideo("{game id}", "{user id}");
  ```
  
- If you want to monitor status of video loading, implement ```USeekPlayerListener```
- ```java
- public class CustomViewSampleActivity extends AppCompatActivity implements USeekPlayerListener {
-    
-    ...
-    
-    /** USeekPlayerView listener */
-    @Override
-    public void useekPlayerDidFailWithError(USeekPlayerView useekPlayerView, WebResourceError error) {
-        Log.d("USeek Sample", "useekPlayerDidFailWithError video");
-    }
-
-    @Override
-    public void useekPlayerDidStartLoad(USeekPlayerView useekPlayerView) {
-        Log.d("USeek Sample", "useekPlayerDidStartLoad video");
-    }
-
-    @Override
-    public void useekPlayerDidFinishLoad(USeekPlayerView useekPlayerView) {
-        Log.d("USeek Sample", "useekPlayerDidFinishLoad video");
-    }
-
-```
-### 2. Adding ```USeekPlayerView``` without use layout resource.
+### Adding ```USeekPlayerView``` without use layout resource.
 ```java
-public class CustomViewSampleActivity extends AppCompatActivity implements USeekPlayerListener {
-
-    LinearLayout useekPlayerViewContainer;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_custom_view_sample);
-        useekPlayerViewContainer = findViewById(R.id.useek_container);
-        
-        USeekPlayerView useekPlayerView = new USeekPlayerView(this);
-        useekPlayerView.setLoadingTextString("{Your custom placeholder string}");
-        useekPlayerViewContainer.addView(
-                useekPlayerView.getView(),
-                new LinearLayout.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.MATCH_PARENT
-                )
-        );
-        useekPlayerView.setPlayerListener(this);
-    }
-    ...
+    USeekPlayerView useekPlayerView = new USeekPlayerView(this);
+    useekPlayerViewContainer.addView(
+            useekPlayerView.getView(),
+            new LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT
+            )
+    );
 ```
 
-### 3. Adding ```USeekPlayerFragment```
-
-```USeekPlayerFragment``` has ```USeekPlayerCloseListener``` which is extended listener of ```USeekPlayerListener```.
-```USeekPlayerCloseListener``` has ```useekPlayerDidClosed``` method to get fragment's close event.
+### Adding ```USeekPlayerFragment```
 
 ```java
-    private void showUSeekPlayerFragment() {
 
-        USeekPlayerFragment fragment = USeekPlayerFragment.newInstance("{gameId}", "{userId}");
-        fragment.setShowCloseButton(true);
-        fragment.setUSeekPlayerCloseListener(new USeekPlayerCloseListener() {
-            @Override
-            public void useekPlayerDidClosed(USeekPlayerView useekPlayerView) {
-                // removeUSeekPlayerFragment();
-                Log.d("USeek Sample", "useekPlayerDidClosed");
-            }
+    USeekPlayerFragment fragment = USeekPlayerFragment.newInstance("{gameId}", "{userId}");
+    getSupportFragmentManager()
+            .beginTransaction()
+            .add(R.id.fragment_container, fragment)
+            .commit();
 
-            @Override
-            public void useekPlayerDidFailWithError(USeekPlayerView useekPlayerView, WebResourceError error) {
-                Log.d("USeek Sample", "useekPlayerDidFailWithError video");
-            }
-
-            @Override
-            public void useekPlayerDidStartLoad(USeekPlayerView useekPlayerView) {
-                Log.d("USeek Sample", "useekPlayerDidStartLoad video");
-            }
-
-            @Override
-            public void useekPlayerDidFinishLoad(USeekPlayerView useekPlayerView) {
-                Log.d("USeek Sample", "useekPlayerDidFinishLoad video");
-            }
-        });
-        
-        getSupportFragmentManager()
-                .beginTransaction()
-                .add(R.id.fragment_container, fragment)
-                .commit();
-
-    }
 ```
 
-### 4. Adding ```USeekPlayerActivity```
+### Adding ```USeekPlayerActivity```
 
 ```java
 import static com.useek.library_beta.USeekPlayerActivity.USEEK_GAME_ID;
@@ -201,12 +117,6 @@ import static com.useek.library_beta.USeekPlayerActivity.USEEK_USER_ID;
 ...
 
     public void openUSeekPlayerActivity() {
-
-        USeekManager.sharedInstance().setPublisherId("{publisher id}");
-
-        USeekPlayerActivity.setUSeekPlayerCloseListener(this);
-        USeekPlayerActivity.setShowCloseButton(true);
-        USeekPlayerActivity.setLoadingText("Loading video...");
 
         Intent intent = new Intent(this, USeekPlayerActivity.class);
         intent.putExtra(USEEK_USER_ID, "{user id}");
