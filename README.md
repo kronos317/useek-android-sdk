@@ -126,7 +126,7 @@ public class CustomViewSampleActivity extends AppCompatActivity {
     }
 
 ```
-### 2. Adding ```USeekPlayerView``` programmatically
+### 2. Adding ```USeekPlayerView``` without use layout resource.
 ```java
 public class CustomViewSampleActivity extends AppCompatActivity implements USeekPlayerListener {
 
