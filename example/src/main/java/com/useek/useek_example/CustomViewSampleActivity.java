@@ -15,7 +15,7 @@ import com.useek.library_beta.USeekPlayerView;
 
 public class CustomViewSampleActivity extends AppCompatActivity implements USeekPlayerListener {
 
-    USeekPlayerView useekView;
+    USeekPlayerView useekPlayerView;
     TextView textViewScore;
     Button   buttonGetScore;
     EditText editTextGameId;
@@ -28,7 +28,7 @@ public class CustomViewSampleActivity extends AppCompatActivity implements USeek
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_custom_view_sample);
 
-        useekView       = findViewById(R.id.custom_activity_useek_view);
+        useekPlayerView = findViewById(R.id.custom_activity_useek_view);
         textViewScore   = findViewById(R.id.custom_activity_score);
         buttonGetScore  = findViewById(R.id.custom_activity_get_score_button);
         buttonGetScore.setOnClickListener(new View.OnClickListener() {
@@ -83,8 +83,8 @@ public class CustomViewSampleActivity extends AppCompatActivity implements USeek
             String gameId = this.editTextGameId.getText().toString();
             String userId = this.editTextUserId.getText().toString();
 
-            useekView.loadVideo(gameId, userId);
-            useekView.setPlayerListener(this);
+            useekPlayerView.loadVideo(gameId, userId);
+            useekPlayerView.setPlayerListener(this);
         }
     }
 
