@@ -22,6 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="2"
+        android:paddingTop="30dp"
         android:orientation="vertical">
 
         <LinearLayout
@@ -30,84 +31,12 @@
             android:padding="@dimen/row_margin">
 
             <TextView
-                android:id="@+id/custom_activity_error_text"
+                android:id="@+id/custom_activity_score_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/edit_text_size"
-                android:textColor="@android:color/holo_red_dark" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/row_margin">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Your Score"/>
-
-            <TextView
-                android:id="@+id/custom_activity_score"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="0"
-                android:layout_marginLeft="@dimen/row_margin"
-                android:layout_marginRight="@dimen/row_margin"/>
-
-            <Button
-                android:id="@+id/custom_activity_get_score_button"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Update"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/row_margin">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Game Id"/>
-
-            <EditText
-                android:id="@+id/custom_activity_game_id"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:text="113"
-                android:textSize="@dimen/edit_text_size"
-                android:layout_marginLeft="@dimen/row_margin"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/row_margin">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="User Id"/>
-
-            <EditText
-                android:id="@+id/custom_activity_user_id"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:text="496953"
-                android:textSize="@dimen/edit_text_size"
-                android:layout_marginLeft="@dimen/row_margin"/>
+                android:textColor="@android:color/holo_red_dark"
+                android:gravity="center"/>
 
         </LinearLayout>
 
@@ -117,10 +46,12 @@
             android:layout_marginTop="@dimen/row_margin">
 
             <Button
-                android:id="@+id/custom_activity_play_button"
-                android:layout_width="match_parent"
+                android:id="@+id/custom_activity_get_score_button"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Play"/>
+                android:layout_weight="1"
+                android:textAllCaps="false"
+                android:text="Request Latest Points"/>
 
         </LinearLayout>
 

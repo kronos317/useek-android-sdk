@@ -33,6 +33,17 @@ public class SettingsActivity extends AppCompatActivity {
                 onPressedSaveButton();
             }
         });
+
+        loadSavedData();
+    }
+
+    void loadSavedData() {
+        ExampleSettingsManager settingsManager = ExampleSettingsManager.sharedInstance();
+        editTextPublisherId.setText(settingsManager.getPublisherId());
+        editTextGameId.setText(settingsManager.getGameId());
+        editTextUserId.setText(settingsManager.getUserId());
+        editTextLoadingText.setText(settingsManager.getLoadingText());
+        switchShowCloseButton.setChecked(settingsManager.isShowCloseButton());
     }
 
     void onPressedSaveButton() {

@@ -13,8 +13,8 @@ public class ExampleSettingsManager
     }
 
     private ExampleSettingsManager() {
-        this.publisherId = "";
-        this.gameId = "113";
+        this.publisherId = "60d95e35d89800b0ee499e60d0735fb8";
+        this.gameId = "122";
         this.userId = "496953";
         this.loadingText = "Please wait while loading...";
         this.showCloseButton = true;

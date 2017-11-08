@@ -61,8 +61,8 @@ public class USeekManager {
 
     /**
      *
-     * Queries the points user has gained while playing the game.
-     * The centralized server will return users's points based on gameId and userId.
+     * Queries the lastPlayPoints user has gained while playing the game.
+     * The centralized server will return users's lastPlayPoints based on gameId and userId.
      *
      * - Precondition : Publisher ID should be set.
      *
@@ -88,12 +88,12 @@ public class USeekManager {
 
         // Create parameter
         HashMap<String, String> params = new HashMap<>();
-        params.put("publisherId", this.publisherId);
-        params.put("gameId", gameId);
+//        params.put("publisherId", this.publisherId);
+//        params.put("gameId", gameId);
         if (userId != null && userId.length() > 0) {
-            params.put("userId", userId);
+            params.put("external_user_id", userId);
         } else {
-            params.put("userId", "");
+            params.put("external_user_id", "");
         }
 
         // Create request url
@@ -108,7 +108,7 @@ public class USeekManager {
             @Override
             public void didSuccess(String response) {
                 USeekPlaybackResultDataModel model = new USeekPlaybackResultDataModel(response);
-                listener.didSuccess(model.getPoints());
+                listener.didSuccess(model.getLastPlayPoints(), model.getTotalPlayPoints());
             }
 
             @Override
@@ -153,10 +153,10 @@ public class USeekManager {
     }
 
     /**
-     * Interface for response of score points
+     * Interface for response of score lastPlayPoints
      */
     public interface RequestPointsListener {
-        void didSuccess(int points);
+        void didSuccess(int lastPlayPoints, int totalPlayPoints);
         void didFailure(Error error);
     }
 }
@@ -284,8 +284,11 @@ class USeekPlaybackResultDataModel {
     private String publisherId;
     private String gameId;
     private String userId;
+    private String externalUserId;
+
     private Boolean finished = false;
-    private int points = 0;
+    private int lastPlayPoints = 0;
+    private int totalPlayPoints = 0;
 
     public String getGameId() {
         return gameId;
@@ -295,8 +298,16 @@ class USeekPlaybackResultDataModel {
         return userId;
     }
 
-    public int getPoints() {
-        return points;
+    public String getExternalUserId() {
+        return externalUserId;
+    }
+
+    public int getLastPlayPoints() {
+        return lastPlayPoints;
+    }
+
+    public int getTotalPlayPoints() {
+        return totalPlayPoints;
     }
 
     public Boolean getFinished() {
@@ -306,11 +317,20 @@ class USeekPlaybackResultDataModel {
     public USeekPlaybackResultDataModel(String string) {
         try {
             JSONObject obj = new JSONObject(string);
-            this.publisherId = obj.getString("publisherId");
-            this.gameId = obj.getString("gameId");
-            this.userId = obj.getString("userId");
-            this.points = obj.getInt("lastPlayPoints");
-            this.finished = obj.getBoolean("finished");
+            if (obj.has("publisherId"))
+                this.publisherId = obj.getString("publisherId");
+            if (obj.has("gameId"))
+                this.gameId = obj.getString("gameId");
+            if (obj.has("userId"))
+                this.userId = obj.getString("userId");
+            if (obj.has("externalUserId"))
+                this.externalUserId = obj.getString("externalUserId");
+            if (obj.has("lastPlayPoints"))
+                this.lastPlayPoints = obj.getInt("lastPlayPoints");
+            if (obj.has("totalPoints"))
+                this.totalPlayPoints = obj.getInt("totalPoints");
+            if (obj.has("finished"))
+                this.finished = obj.getBoolean("finished");
         } catch (Throwable t) {
 
         }
@@ -320,17 +340,25 @@ class USeekPlaybackResultDataModel {
         this.publisherId = data.get("publisherId").toString();
         this.gameId = data.get("gameId").toString();
         this.userId = data.get("userId").toString();
-        this.points = (int)data.get("lastPlayPoints");
+        this.lastPlayPoints = (int)data.get("lastPlayPoints");
         this.finished = (boolean) data.get("finished");
     }
 
     public USeekPlaybackResultDataModel(JSONObject jsonObject) {
         try {
-            this.publisherId = jsonObject.getString("publisherId");
-            this.gameId = jsonObject.getString("gameId");
-            this.userId = jsonObject.getString("userId");
-            this.points = jsonObject.getInt("lastPlayPoints");
-            this.finished = jsonObject.getBoolean("finished");
+            JSONObject obj = jsonObject;
+            if (obj.has("publisherId"))
+                this.publisherId = obj.getString("publisherId");
+            if (obj.has("gameId"))
+                this.gameId = obj.getString("gameId");
+            if (obj.has("userId"))
+                this.userId = obj.getString("userId");
+            if (obj.has("lastPlayPoints"))
+                this.lastPlayPoints = obj.getInt("lastPlayPoints");
+            if (obj.has("totalPoints"))
+                this.totalPlayPoints = obj.getInt("totalPoints");
+            if (obj.has("finished"))
+                this.finished = obj.getBoolean("finished");
         } catch (Throwable t) {
 
         }

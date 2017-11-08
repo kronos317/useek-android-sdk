@@ -43,10 +43,10 @@
         app:layout_constraintTop_toBottomOf="@id/main_activity_custom_view_button"/>
 
     <Button
-        android:id="@+id/main_activity_setting_button"
+        android:id="@+id/main_activity_request_points"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Settings"
+        android:text="Request Latest Points"
         android:layout_marginTop="50dp"
         app:layout_constraintStart_toStartOf="@id/main_activity_button"
         app:layout_constraintTop_toBottomOf="@id/main_activity_programmatically_custom_view_button"/>

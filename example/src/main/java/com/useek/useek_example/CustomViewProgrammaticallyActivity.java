@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebResourceError;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -18,14 +17,12 @@ import com.useek.library_beta.USeekPlayerView;
 public class CustomViewProgrammaticallyActivity extends AppCompatActivity implements USeekPlayerListener {
 
     LinearLayout useekContainer;
-    USeekPlayerView useekView;
+    USeekPlayerView useekPlayerView;
 
     TextView        textViewScore;
     Button          buttonGetScore;
-    EditText        editTextGameId;
-    EditText        editTextUserId;
-    Button          buttonPlay;
-    TextView        textViewErrorLog;
+
+    ExampleSettingsManager settingsManager = ExampleSettingsManager.sharedInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +31,7 @@ public class CustomViewProgrammaticallyActivity extends AppCompatActivity implem
 
         useekContainer = findViewById(R.id.useek_container);
         addUSeekPlayerView();
-        textViewScore   = findViewById(R.id.programmatically_activity_score);
+        textViewScore   = findViewById(R.id.programmatically_activity_score_text);
         buttonGetScore  = findViewById(R.id.programmatically_activity_get_score_button);
         buttonGetScore.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,81 +39,50 @@ public class CustomViewProgrammaticallyActivity extends AppCompatActivity implem
                 onPressedGetScore();
             }
         });
-        editTextGameId  = findViewById(R.id.programmatically_activity_game_id);
-        editTextUserId  = findViewById(R.id.programmatically_activity_user_id);
-        buttonPlay      = findViewById(R.id.programmatically_activity_play_button);
-        buttonPlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onPressedPlayVideo();
-            }
-        });
-        textViewErrorLog = findViewById(R.id.programmatically_activity_error_text);
+
 
     }
 
     private void addUSeekPlayerView() {
-        useekView = new USeekPlayerView(this);
-        useekView.setLoadingTextString(ExampleSettingsManager.sharedInstance().getLoadingText());
+        useekPlayerView = new USeekPlayerView(this);
+        useekPlayerView.setLoadingTextString(ExampleSettingsManager.sharedInstance().getLoadingText());
         useekContainer.addView(
-                useekView.getView(),
+                useekPlayerView.getView(),
                 new LinearLayout.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.MATCH_PARENT
                 )
         );
-        useekView.setPlayerListener(this);
+        useekPlayerView.setPlayerListener(this);
+        USeekManager.sharedInstance().setPublisherId(settingsManager.getPublisherId());
+        useekPlayerView.loadVideo(settingsManager.getGameId(), settingsManager.getUserId());
     }
 
     private void onPressedGetScore() {
-        if (checkValidate()) {
-            textViewErrorLog.setText("Loading score...");
-            buttonGetScore.setEnabled(false);
-            USeekManager.sharedInstance().requestPoints(
-                    this.editTextGameId.getText().toString(),
-                    this.editTextUserId.getText().toString(),
-                    new USeekManager.RequestPointsListener() {
-                        @Override
-                        public void didSuccess(int points) {
-                            textViewErrorLog.setText("");
-                            textViewScore.setText(String.valueOf(points));
-                            buttonGetScore.setEnabled(true);
-                        }
-
-                        @Override
-                        public void didFailure(Error error) {
-                            if (error != null)
-                                textViewErrorLog.setText(error.getLocalizedMessage());
-                            else
-                                textViewErrorLog.setText("Error to loading score.");
-
-                            buttonGetScore.setEnabled(true);
-                        }
+        textViewScore.setText("Loading score...");
+        buttonGetScore.setEnabled(false);
+        USeekManager.sharedInstance().requestPoints(
+                settingsManager.getGameId(),
+                settingsManager.getUserId(),
+                new USeekManager.RequestPointsListener() {
+                    @Override
+                    public void didSuccess(int lastPlayPoints, int totalPlayPoints) {
+                        textViewScore.setText(String.format("Your last play points : %d\nYour total play points : %d", lastPlayPoints, totalPlayPoints));
+                        buttonGetScore.setEnabled(true);
                     }
-            );
-        }
+
+                    @Override
+                    public void didFailure(Error error) {
+                        if (error != null)
+                            textViewScore.setText(error.getLocalizedMessage());
+                        else
+                            textViewScore.setText("Error to loading score.");
+
+                        buttonGetScore.setEnabled(true);
+                    }
+                }
+        );
     }
-
-    private void onPressedPlayVideo() {
-        if (checkValidate()) {
-            String gameId = this.editTextGameId.getText().toString();
-            String userId = this.editTextUserId.getText().toString();
-
-            useekView.loadVideo(gameId, userId);
-            useekView.setPlayerListener(this);
-        }
-    }
-
-    private boolean checkValidate() {
-        boolean isValid = true;
-        String gameId = editTextGameId.getText().toString();
-        if (gameId == null || gameId.length() == 0) {
-            textViewErrorLog.setText("Invalid Game Id");
-            isValid = false;
-        }
-        return isValid;
-    }
-
 
     /** USeekPlayerView listener */
 

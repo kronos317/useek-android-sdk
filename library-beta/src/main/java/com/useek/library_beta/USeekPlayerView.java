@@ -7,14 +7,17 @@ import android.graphics.Color;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.net.URL;
@@ -48,6 +51,7 @@ import java.net.URL;
 
 public class USeekPlayerView extends FrameLayout {
 
+    private Context mContext;
     private final String tagName = getResources().getString(R.string.library_name);
 
     private WebView webView;
@@ -85,11 +89,17 @@ public class USeekPlayerView extends FrameLayout {
 
     private void init(Context context, AttributeSet attrs, int defStyle) {
 
+        mContext = context;
+
         View view = LayoutInflater.from(context).inflate(R.layout.useek_view, this, true);
         webView = view.findViewById(R.id.useek_web_view);
+        webView.getSettings().setLoadWithOverviewMode(true);
+        webView.getSettings().setUseWideViewPort(true);
+
         loadingMaskView = view.findViewById(R.id.useek_loading_mask_view);
         loadingTextView = view.findViewById(R.id.useek_loading_text);
-
+        ProgressBar progressBar = view.findViewById(R.id.useek_view_progressbar);
+        progressBar.getIndeterminateDrawable().setColorFilter(0xAAA, android.graphics.PorterDuff.Mode.SRC_ATOP);
         this.isLoadingMaskHidden = false;
 
         // Load attributes
@@ -121,8 +131,13 @@ public class USeekPlayerView extends FrameLayout {
         if (mCustomView == null) {
             mCustomView = mInflater.inflate(R.layout.useek_view, null);
             webView = mCustomView.findViewById(R.id.useek_web_view);
+            webView.getSettings().setLoadWithOverviewMode(true);
+            webView.getSettings().setUseWideViewPort(true);
+
             loadingMaskView = mCustomView.findViewById(R.id.useek_loading_mask_view);
             loadingTextView = mCustomView.findViewById(R.id.useek_loading_text);
+            ProgressBar progressBar = mCustomView.findViewById(R.id.useek_view_progressbar);
+            progressBar.getIndeterminateDrawable().setColorFilter(0xAAA, android.graphics.PorterDuff.Mode.SRC_ATOP);
 
             this.isLoadingMaskHidden = false;
         }

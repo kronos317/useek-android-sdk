@@ -4,9 +4,13 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebResourceError;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.useek.library_beta.USeekManager;
 import com.useek.library_beta.USeekPlayerActivity;
@@ -18,11 +22,13 @@ import static com.useek.library_beta.USeekPlayerActivity.USEEK_USER_ID;
 
 public class MainActivity extends AppCompatActivity {
 
+    Button buttonRequestPoints;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        USeekManager.sharedInstance().setPublisherId("a839793e879c8d0237124a8400e31477");
+        USeekManager.sharedInstance().setPublisherId("60d95e35d89800b0ee499e60d0735fb8");
 
         setContentView(R.layout.activity_main);
 
@@ -58,11 +64,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button button4 = findViewById(R.id.main_activity_setting_button);
-        button4.setOnClickListener(new View.OnClickListener() {
+        buttonRequestPoints = findViewById(R.id.main_activity_request_points);
+        buttonRequestPoints.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onPressedSettings();
+                onPressedRequestPoint();
             }
         });
     }
@@ -70,7 +76,6 @@ public class MainActivity extends AppCompatActivity {
     public void onPressPlayActivity() {
 
         ExampleSettingsManager settingsManager = ExampleSettingsManager.sharedInstance();
-        USeekManager.sharedInstance().setPublisherId(settingsManager.getPublisherId());
 
         USeekPlayerActivity.setUSeekPlayerCloseListener(new USeekPlayerCloseListener() {
             @Override
@@ -117,8 +122,69 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void onPressedRequestPoint() {
+        ExampleSettingsManager settingsManager = ExampleSettingsManager.sharedInstance();
+        buttonRequestPoints.setText("Please wait...");
+        buttonRequestPoints.setEnabled(false);
+        USeekManager.sharedInstance().requestPoints(
+                settingsManager.getGameId(),
+                settingsManager.getUserId(),
+                new USeekManager.RequestPointsListener() {
+                    @Override
+                    public void didSuccess(int lastPlayPoints, int totalPlayPoints) {
+                        Toast.makeText(
+                                MainActivity.this,
+                                String.format("Your last play points : %d\nYour total play points : %d", lastPlayPoints, totalPlayPoints),
+                                Toast.LENGTH_LONG)
+                                .show();
+                        
+                        buttonRequestPoints.setText("Request Latest Points");
+                        buttonRequestPoints.setEnabled(true);
+
+                    }
+
+                    @Override
+                    public void didFailure(Error error) {
+                        String errorString;
+                        if (error != null)
+                            errorString = error.getLocalizedMessage();
+                        else
+                            errorString = "Error to loading score.";
+                        Toast.makeText(
+                                MainActivity.this,
+                                errorString,
+                                Toast.LENGTH_LONG)
+                                .show();
+
+                        buttonRequestPoints.setText("Request Latest Points");
+                        buttonRequestPoints.setEnabled(true);
+                    }
+                }
+        );
+
+    }
+
     public void onPressedSettings() {
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main_tab, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            onPressedSettings();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

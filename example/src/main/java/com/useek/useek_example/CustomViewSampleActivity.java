@@ -18,10 +18,8 @@ public class CustomViewSampleActivity extends AppCompatActivity implements USeek
     USeekPlayerView useekPlayerView;
     TextView textViewScore;
     Button   buttonGetScore;
-    EditText editTextGameId;
-    EditText editTextUserId;
-    Button   buttonPlay;
-    TextView textViewErrorLog;
+
+    ExampleSettingsManager settingsManager = ExampleSettingsManager.sharedInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +27,7 @@ public class CustomViewSampleActivity extends AppCompatActivity implements USeek
         setContentView(R.layout.activity_custom_view_sample);
 
         useekPlayerView = findViewById(R.id.custom_activity_useek_view);
-        textViewScore   = findViewById(R.id.custom_activity_score);
+        textViewScore   = findViewById(R.id.custom_activity_score_text);
         buttonGetScore  = findViewById(R.id.custom_activity_get_score_button);
         buttonGetScore.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -37,67 +35,36 @@ public class CustomViewSampleActivity extends AppCompatActivity implements USeek
                 onPressedGetScore();
             }
         });
-        editTextGameId  = findViewById(R.id.custom_activity_game_id);
-        editTextUserId  = findViewById(R.id.custom_activity_user_id);
-        buttonPlay      = findViewById(R.id.custom_activity_play_button);
-        buttonPlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onPressedPlayVideo();
-            }
-        });
-        textViewErrorLog = findViewById(R.id.custom_activity_error_text);
+
+        USeekManager.sharedInstance().setPublisherId(settingsManager.getPublisherId());
+        useekPlayerView.loadVideo(settingsManager.getGameId(), settingsManager.getUserId());
     }
 
     private void onPressedGetScore() {
-        if (checkValidate()) {
-            textViewErrorLog.setText("Loading score...");
-            buttonGetScore.setEnabled(false);
-            USeekManager.sharedInstance().requestPoints(
-                    this.editTextGameId.getText().toString(),
-                    this.editTextUserId.getText().toString(),
-                    new USeekManager.RequestPointsListener() {
-                        @Override
-                        public void didSuccess(int points) {
-                            textViewErrorLog.setText("");
-                            textViewScore.setText(String.valueOf(points));
-                            buttonGetScore.setEnabled(true);
-                        }
-
-                        @Override
-                        public void didFailure(Error error) {
-                            if (error != null)
-                                textViewErrorLog.setText(error.getLocalizedMessage());
-                            else
-                                textViewErrorLog.setText("Error to loading score.");
-
-                            buttonGetScore.setEnabled(true);
-                        }
+        textViewScore.setText("Loading score...");
+        buttonGetScore.setEnabled(false);
+        USeekManager.sharedInstance().requestPoints(
+                settingsManager.getGameId(),
+                settingsManager.getUserId(),
+                new USeekManager.RequestPointsListener() {
+                    @Override
+                    public void didSuccess(int lastPlayPoints, int totalPlayPoints) {
+                        textViewScore.setText(String.format("Your last play points : %d\nYour total play points : %d", lastPlayPoints, totalPlayPoints));
+                        buttonGetScore.setEnabled(true);
                     }
-            );
-        }
+
+                    @Override
+                    public void didFailure(Error error) {
+                        if (error != null)
+                            textViewScore.setText(error.getLocalizedMessage());
+                        else
+                            textViewScore.setText("Error to loading score.");
+
+                        buttonGetScore.setEnabled(true);
+                    }
+                }
+        );
     }
-
-    private void onPressedPlayVideo() {
-        if (checkValidate()) {
-            String gameId = this.editTextGameId.getText().toString();
-            String userId = this.editTextUserId.getText().toString();
-
-            useekPlayerView.loadVideo(gameId, userId);
-            useekPlayerView.setPlayerListener(this);
-        }
-    }
-
-    private boolean checkValidate() {
-        boolean isValid = true;
-        String gameId = editTextGameId.getText().toString();
-        if (gameId == null || gameId.length() == 0) {
-            textViewErrorLog.setText("Invalid Game Id");
-            isValid = false;
-        }
-        return isValid;
-    }
-
 
     /** USeekPlayerView listener */
 

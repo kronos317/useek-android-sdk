@@ -20,7 +20,7 @@
         android:id="@+id/useek_loading_mask_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:drawable/screen_background_dark_transparent">
+        android:background="@android:color/black">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -29,12 +29,11 @@
             android:gravity="center">
 
             <ProgressBar
-                style="?android:attr/progressBarStyle"
+                android:id="@+id/useek_view_progressbar"
+                style="?android:attr/progressBarStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:progressTint="@android:color/darker_gray"
-                android:scrollbarSize="@dimen/loading_text_size" />
+                android:layout_weight="1"/>
 
             <TextView
                 android:id="@+id/useek_loading_text"

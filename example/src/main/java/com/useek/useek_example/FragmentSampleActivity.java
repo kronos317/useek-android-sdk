@@ -61,6 +61,7 @@ public class FragmentSampleActivity extends AppCompatActivity implements View.On
         fragment.setUSeekPlayerCloseListener(new USeekPlayerCloseListener() {
             @Override
             public void useekPlayerDidClosed(USeekPlayerView useekPlayerView) {
+                promptRequestScore();
                 removeUSeekFragment();
             }
 
@@ -86,6 +87,10 @@ public class FragmentSampleActivity extends AppCompatActivity implements View.On
 
         buttonShowUSeekView.setEnabled(false);
         buttonRemoveFragment.setEnabled(true);
+    }
+
+    private void promptRequestScore() {
+
     }
 
     private void removeUSeekFragment() {
