@@ -137,7 +137,7 @@ USeekManager.sharedInstance().requestPoints("{game id}", "{user id}",
             }
 
             @Override
-            public void didFailure(Error error) {
+            public void useekRequestForPlayPointsDidFail(Error error) {
 
             }
         }

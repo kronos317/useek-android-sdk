@@ -1,5 +1,4 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -31,7 +30,7 @@
             <ProgressBar
                 android:id="@+id/useek_view_progressbar"
                 style="?android:attr/progressBarStyleSmall"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"/>
 
@@ -43,21 +42,11 @@
                 android:text="@string/loading_webview"
                 android:textSize="@dimen/loading_text_size"
                 android:textColor="@android:color/darker_gray"
-                android:layout_marginLeft="10dp"/>
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"/>
 
         </LinearLayout>
 
     </FrameLayout>
-
-    <!--<com.useek.library_beta.USeekView-->
-        <!--android:layout_width="300dp"-->
-        <!--android:layout_height="300dp"-->
-        <!--android:background="#ccc"-->
-        <!--android:paddingBottom="40dp"-->
-        <!--android:paddingLeft="20dp"-->
-        <!--app:exampleColor="#33b5e5"-->
-        <!--app:exampleDimension="24sp"-->
-        <!--app:exampleDrawable="@android:drawable/ic_menu_add"-->
-        <!--app:exampleString="Hello, USeekView" />-->
 
 </FrameLayout>

@@ -45,7 +45,7 @@ public class CustomViewProgrammaticallyActivity extends AppCompatActivity implem
 
     private void addUSeekPlayerView() {
         useekPlayerView = new USeekPlayerView(this);
-        useekPlayerView.setLoadingTextString(ExampleSettingsManager.sharedInstance().getLoadingText());
+        useekPlayerView.setLoadingText(ExampleSettingsManager.sharedInstance().getLoadingText());
         useekContainer.addView(
                 useekPlayerView.getView(),
                 new LinearLayout.LayoutParams(
@@ -66,17 +66,17 @@ public class CustomViewProgrammaticallyActivity extends AppCompatActivity implem
                 settingsManager.getUserId(),
                 new USeekManager.RequestPointsListener() {
                     @Override
-                    public void didSuccess(int lastPlayPoints, int totalPlayPoints) {
+                    public void useekRequestForPlayPointsDidSuccess(int lastPlayPoints, int totalPlayPoints) {
                         textViewScore.setText(String.format("Your last play points : %d\nYour total play points : %d", lastPlayPoints, totalPlayPoints));
                         buttonGetScore.setEnabled(true);
                     }
 
                     @Override
-                    public void didFailure(Error error) {
+                    public void useekRequestForPlayPointsDidFail(Error error) {
                         if (error != null)
                             textViewScore.setText(error.getLocalizedMessage());
                         else
-                            textViewScore.setText("Error to loading score.");
+                            textViewScore.setText("Sorry, we've encountered an error while loading points");
 
                         buttonGetScore.setEnabled(true);
                     }

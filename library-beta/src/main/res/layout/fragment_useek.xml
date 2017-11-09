@@ -2,11 +2,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.useek.library_beta.USeekPlayerFragment">
 
     <com.useek.library_beta.USeekPlayerView
-        android:id="@+id/useek_player_view"
+        android:id="@+id/useek_fragment_useek_player_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -19,6 +18,7 @@
         android:src="@mipmap/icon_close"
         android:background="@android:color/transparent"
         android:layout_margin="@dimen/close_button_margin"
-        android:layout_gravity="end"/>
+        android:layout_gravity="end"
+        tools:ignore="ContentDescription" />
 
 </FrameLayout>

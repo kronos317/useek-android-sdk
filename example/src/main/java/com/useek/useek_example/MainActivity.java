@@ -6,7 +6,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -101,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("USeek Sample", "useekPlayerDidFinishLoad()");
             }
         });
-        USeekPlayerActivity.setShowCloseButton(settingsManager.isShowCloseButton());
+        USeekPlayerActivity.setCloseButtonHidden(settingsManager.isShowCloseButton());
         USeekPlayerActivity.setLoadingText(settingsManager.getLoadingText());
 
         Intent intent = new Intent(this, USeekPlayerActivity.class);
@@ -134,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
                 settingsManager.getUserId(),
                 new USeekManager.RequestPointsListener() {
                     @Override
-                    public void didSuccess(int lastPlayPoints, int totalPlayPoints) {
+                    public void useekRequestForPlayPointsDidSuccess(int lastPlayPoints, int totalPlayPoints) {
                         Toast.makeText(
                                 MainActivity.this,
                                 String.format("Your last play points : %d\nYour total play points : %d", lastPlayPoints, totalPlayPoints),
@@ -147,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void didFailure(Error error) {
+                    public void useekRequestForPlayPointsDidFail(Error error) {
                         String errorString;
                         if (error != null)
                             errorString = error.getLocalizedMessage();
@@ -194,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
     private void promptRequestPoints() {
         AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
         alertDialog.setTitle("Confirmation");
-        alertDialog.setMessage("Would you like to know your points?");
+        alertDialog.setMessage("Will you request for your latest points?");
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "YES",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {

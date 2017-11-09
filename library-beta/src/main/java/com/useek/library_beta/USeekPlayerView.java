@@ -7,10 +7,8 @@ import android.graphics.Color;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
@@ -44,32 +42,30 @@ import java.net.URL;
  *                   ViewGroup.LayoutParams.MATCH_PARENT
  *               )
  *           );
- *       useekView.loadVideo("{gameId}", "{userId"});
+ *       useekView.loadVideo("{mGameId}", "{mUserId"});
  *       useekView.setPlayerListener(this);
  *
  */
-
 public class USeekPlayerView extends FrameLayout {
 
     private Context mContext;
-    private final String tagName = getResources().getString(R.string.library_name);
+    private final String mTagName = getResources().getString(R.string.library_name);
 
-    private WebView webView;
-    private FrameLayout loadingMaskView;
-    private TextView loadingTextView;
-
-    private String gameId;
-    private String userId;
-
-    private VideoLoadStatus status = VideoLoadStatus.NONE;
-    private Boolean isLoadingMaskHidden = false;
-
-    private USeekPlayerListener playerListener;
-
-    private String mLoadingTextString;
-
+    private WebView mWebView;
+    private FrameLayout mLoadingMaskView;
+    private TextView mLoadingTextView;
     private View mCustomView;
     private LayoutInflater mInflater;
+
+    private String mGameId;
+    private String mUserId;
+    private String mLoadingText;
+
+    private VideoLoadStatus mStatus = VideoLoadStatus.NONE;
+    private Boolean mIsLoadingMaskHidden = false;
+
+    private USeekPlayerListener mPlayerListener;
+
 
     public USeekPlayerView(Context context) {
         super(context);
@@ -92,23 +88,23 @@ public class USeekPlayerView extends FrameLayout {
         mContext = context;
 
         View view = LayoutInflater.from(context).inflate(R.layout.useek_view, this, true);
-        webView = view.findViewById(R.id.useek_web_view);
-        webView.getSettings().setLoadWithOverviewMode(true);
-        webView.getSettings().setUseWideViewPort(true);
+        mWebView = view.findViewById(R.id.useek_web_view);
+        mWebView.getSettings().setLoadWithOverviewMode(true);
+        mWebView.getSettings().setUseWideViewPort(true);
 
-        loadingMaskView = view.findViewById(R.id.useek_loading_mask_view);
-        loadingTextView = view.findViewById(R.id.useek_loading_text);
+        mLoadingMaskView = view.findViewById(R.id.useek_loading_mask_view);
+        mLoadingTextView = view.findViewById(R.id.useek_loading_text);
         ProgressBar progressBar = view.findViewById(R.id.useek_view_progressbar);
         progressBar.getIndeterminateDrawable().setColorFilter(0xAAA, android.graphics.PorterDuff.Mode.SRC_ATOP);
-        this.isLoadingMaskHidden = false;
+        this.mIsLoadingMaskHidden = false;
 
         // Load attributes
         final TypedArray a = getContext().obtainStyledAttributes(
                 attrs, R.styleable.USeekPlayerView, defStyle, 0);
 
         if (a.hasValue(R.styleable.USeekPlayerView_useek_loadingText)) {
-            this.mLoadingTextString = a.getString(R.styleable.USeekPlayerView_useek_loadingText);
-            this.loadingTextView.setText(this.mLoadingTextString);
+            this.mLoadingText = a.getString(R.styleable.USeekPlayerView_useek_loadingText);
+            this.mLoadingTextView.setText(this.mLoadingText);
         }
 
         a.recycle();
@@ -116,30 +112,30 @@ public class USeekPlayerView extends FrameLayout {
 
     /**
      * Set placeholder text for loading video
-     * @param loadingTextString     String to set placeholder text while loading video
+     * @param loadingText     String to set placeholder text while loading video
      */
-    public void setLoadingTextString(String loadingTextString) {
-        this.mLoadingTextString = mLoadingTextString;
+    public void setLoadingText(String loadingText) {
+        this.mLoadingText = loadingText;
     }
 
     /**
-     * Create USeekPlayerView programmatically
+     * Create USeekPlayerView as subview programmatically
      *
      * @return instance object of USeekPlayerView
      */
     public View getView() {
         if (mCustomView == null) {
             mCustomView = mInflater.inflate(R.layout.useek_view, null);
-            webView = mCustomView.findViewById(R.id.useek_web_view);
-            webView.getSettings().setLoadWithOverviewMode(true);
-            webView.getSettings().setUseWideViewPort(true);
+            mWebView = mCustomView.findViewById(R.id.useek_web_view);
+            mWebView.getSettings().setLoadWithOverviewMode(true);
+            mWebView.getSettings().setUseWideViewPort(true);
 
-            loadingMaskView = mCustomView.findViewById(R.id.useek_loading_mask_view);
-            loadingTextView = mCustomView.findViewById(R.id.useek_loading_text);
+            mLoadingMaskView = mCustomView.findViewById(R.id.useek_loading_mask_view);
+            mLoadingTextView = mCustomView.findViewById(R.id.useek_loading_text);
             ProgressBar progressBar = mCustomView.findViewById(R.id.useek_view_progressbar);
             progressBar.getIndeterminateDrawable().setColorFilter(0xAAA, android.graphics.PorterDuff.Mode.SRC_ATOP);
 
-            this.isLoadingMaskHidden = false;
+            this.mIsLoadingMaskHidden = false;
         }
         return mCustomView;
     }
@@ -149,15 +145,15 @@ public class USeekPlayerView extends FrameLayout {
      * @param gameId    String object of unique game id provided by USeek, Non-nullable
      */
     public void setGameId(String gameId) {
-        this.gameId = gameId;
+        this.mGameId = gameId;
     }
 
     /**
      * Get unique game id
-     * @return gameId   String object of unique game id
+     * @return mGameId   String object of unique game id
      */
     public String getGameId() {
-        return gameId;
+        return mGameId;
     }
 
     /**
@@ -165,38 +161,38 @@ public class USeekPlayerView extends FrameLayout {
      * @param userId    String object of user's unique id registered on USeek, Nullable
      */
     public void setUserId(String userId) {
-        this.userId = userId;
+        this.mUserId = userId;
     }
 
     /**
      * Get user's unique id registered on USeek
-     * @return userId   String object of user's unique id
+     * @return mUserId   String object of user's unique id
      */
     public String getUserId() {
-        return userId;
+        return mUserId;
     }
 
     /**
-     * Set listener for video loading status
+     * Set listener for video loading mStatus
      * @param playerListener    USeekPlayerListener instance
      */
     public void setPlayerListener(USeekPlayerListener playerListener) {
-        this.playerListener = playerListener;
+        this.mPlayerListener = playerListener;
     }
 
     private USeekPlayerListener getPlayerListener() {
-        return playerListener;
+        return mPlayerListener;
     }
 
     /**
-     * Load Video with existing GameId and UserId
+     * Load Video with current game id and user id
      */
     public void loadVideo() {
-        this.loadVideo(this.gameId, this.userId);
+        this.loadVideo(this.mGameId, this.mUserId);
     }
 
     /**
-     * Load Video with GameId and UserId
+     * Load Video with game id and user id
      * @param gameId    unique game id provided by USeek, not nullable
      * @param userId    user's unique id registered in USeek, nullable
      */
@@ -208,16 +204,16 @@ public class USeekPlayerView extends FrameLayout {
 
         URL url = this.generateVideoUrl();
         if (url == null) {
-            Log.e(tagName, "Invalid USeek URL");
+            Log.e(mTagName, "Invalid USeek URL");
             return;
         }
 
         /** Initialize WebView */
         this.initializeWebView();
 
-        /** Set webView listener */
+        /** Set mWebView listener */
         final USeekPlayerView _this = this;
-        webView.setWebViewClient(new WebViewClient() {
+        mWebView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
@@ -238,7 +234,7 @@ public class USeekPlayerView extends FrameLayout {
         });
 
         /** Load Video URL */
-        webView.loadUrl(url.toString());
+        mWebView.loadUrl(url.toString());
 
     }
 
@@ -276,33 +272,33 @@ public class USeekPlayerView extends FrameLayout {
 
         if (publisherId == null) {
             isValid = false;
-            Log.e(tagName, "Not set publisher id");
+            Log.e(mTagName, "Not set publisher id");
         } else if (publisherId.length() == 0){
             isValid = false;
-            Log.e(tagName, "Invalid publisher id");
+            Log.e(mTagName, "Invalid publisher id");
         }
 
         if (this.getGameId() == null) {
             isValid = false;
-            Log.e(tagName, "Not set game id");
+            Log.e(mTagName, "Not set game id");
         } else if (this.getGameId().length() == 0) {
             isValid = false;
-            Log.e(tagName, "Invalid game id");
+            Log.e(mTagName, "Invalid game id");
         }
         return isValid;
     }
 
     private void initializeWebView() {
-        if (webView != null) {
-            WebSettings webSettings = webView.getSettings();
+        if (mWebView != null) {
+            WebSettings webSettings = mWebView.getSettings();
             webSettings.setJavaScriptEnabled(true);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
                 webSettings.setMediaPlaybackRequiresUserGesture(false);
             }
-            webView.setBackgroundColor(Color.TRANSPARENT);
+            mWebView.setBackgroundColor(Color.TRANSPARENT);
 
         } else {
-            Log.e(tagName, "Not initialized web view.");
+            Log.e(mTagName, "Not initialized web view.");
         }
     }
 
@@ -310,19 +306,19 @@ public class USeekPlayerView extends FrameLayout {
      * Started loading video(web view)
      */
     private void didStartLoadingWebView() {
-        Log.d(tagName, "WebView didStartLoadingWebView");
+        Log.d(mTagName, "WebView didStartLoadingWebView");
 
-        if (this.status == VideoLoadStatus.NONE) {
-            if (this.playerListener != null) {
-                this.playerListener.useekPlayerDidStartLoad(this);
+        if (this.mStatus == VideoLoadStatus.NONE) {
+            if (this.mPlayerListener != null) {
+                this.mPlayerListener.useekPlayerDidStartLoad(this);
             }
         }
 
-        this.status = VideoLoadStatus.LOAD_STARTED;
-        if (!this.isLoadingMaskHidden) {
+        this.mStatus = VideoLoadStatus.LOAD_STARTED;
+        if (!this.mIsLoadingMaskHidden) {
             this.animateLoadingMaskToShow();
         } else {
-            this.loadingMaskView.setVisibility(GONE);
+            this.mLoadingMaskView.setVisibility(GONE);
         }
 
     }
@@ -331,23 +327,23 @@ public class USeekPlayerView extends FrameLayout {
      * Finished loading video(web view)
      */
     private void didFinishLoadingWebView() {
-        Log.d(tagName, "WebView didFinishLoadingWebView");
+        Log.d(mTagName, "WebView didFinishLoadingWebView");
 
-        if (this.status != VideoLoadStatus.LOAD_FAILED &&
-                this.status != VideoLoadStatus.LOADED) {
-            if (this.playerListener != null) {
-                this.playerListener.useekPlayerDidFinishLoad(this);
+        if (this.mStatus != VideoLoadStatus.LOAD_FAILED &&
+                this.mStatus != VideoLoadStatus.LOADED) {
+            if (this.mPlayerListener != null) {
+                this.mPlayerListener.useekPlayerDidFinishLoad(this);
             }
         }
 
-        if (this.status != VideoLoadStatus.LOAD_FAILED) {
-            this.status = VideoLoadStatus.LOADED;
+        if (this.mStatus != VideoLoadStatus.LOAD_FAILED) {
+            this.mStatus = VideoLoadStatus.LOADED;
         }
 
-        if (!this.isLoadingMaskHidden) {
+        if (!this.mIsLoadingMaskHidden) {
             this.animateLoadingMaskToHide();
         } else {
-            this.loadingMaskView.setVisibility(GONE);
+            this.mLoadingMaskView.setVisibility(GONE);
         }
 
     }
@@ -360,35 +356,35 @@ public class USeekPlayerView extends FrameLayout {
         if (errorString == null) {
             errorString = "";
         }
-        Log.d(tagName, "WebView didFailLoadingWebView with Error:\n" + errorString);
+        Log.d(mTagName, "WebView didFailLoadingWebView with Error:\n" + errorString);
 
-        if (this.status != VideoLoadStatus.LOAD_FAILED) {
-            if (this.playerListener != null) {
-                this.playerListener.useekPlayerDidFailWithError(this, error);
+        if (this.mStatus != VideoLoadStatus.LOAD_FAILED) {
+            if (this.mPlayerListener != null) {
+                this.mPlayerListener.useekPlayerDidFailWithError(this, error);
             }
         }
 
-        this.status = VideoLoadStatus.LOAD_FAILED;
+        this.mStatus = VideoLoadStatus.LOAD_FAILED;
 
-        if (!this.isLoadingMaskHidden) {
+        if (!this.mIsLoadingMaskHidden) {
             this.animateLoadingMaskToHide();
         } else {
-            this.loadingMaskView.setVisibility(GONE);
+            this.mLoadingMaskView.setVisibility(GONE);
         }
     }
 
     /**
-     * Animation of showing loadingMaskView
+     * Animation of showing mLoadingMaskView
      */
     private void animateLoadingMaskToShow() {
-        this.loadingMaskView.setVisibility(VISIBLE);
+        this.mLoadingMaskView.setVisibility(VISIBLE);
     }
 
     /**
-     * Animation of hiding loadingMaskView
+     * Animation of hiding mLoadingMaskView
      */
     private void animateLoadingMaskToHide() {
-        this.loadingMaskView.setVisibility(GONE);
+        this.mLoadingMaskView.setVisibility(GONE);
     }
 
 

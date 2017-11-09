@@ -9,10 +9,36 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 /**
- * Activities that contain this fragment can implement the
- * {@link USeekPlayerCloseListener} interface to handle interaction events.
- * Use the {@link USeekPlayerFragment#newInstance} construct method to
- * create an instance of this fragment.
+ *
+ * USeekPlayerFragment
+ *
+ * Simple USeek player fragment
+ *
+ * 1. At the time of intent creation, you should put extras for game id and user id
+ *
+ *  USeekPlayerFragment fragment = USeekPlayerFragment.newInstance("{your game id}", "{your user id}");
+ *  getSupportFragmentManager()
+ *          .beginTransaction()
+ *          .add(R.id.fragment_container, fragment)
+ *          .commit();
+ *  fragment.loadVideo("{game id}", "{user id}");
+ *
+ * 2. Implement {@link USeekPlayerCloseListener}
+ *
+ *      fragment.setUSeekPlayerCloseListener(new USeekPlayerCloseListener() {
+ *          public void useekPlayerDidClosed(USeekPlayerView mUseekPlayerView) {
+ *          }
+ *
+ *          public void useekPlayerDidFailWithError(USeekPlayerView mUseekPlayerView, WebResourceError error) {
+ *          }
+ *
+ *          public void useekPlayerDidStartLoad(USeekPlayerView mUseekPlayerView) {
+ *          }
+ *
+ *          public void useekPlayerDidFinishLoad(USeekPlayerView mUseekPlayerView) {
+ *          }
+ *      });
+ *
  */
 public class USeekPlayerFragment extends Fragment {
 
@@ -24,28 +50,49 @@ public class USeekPlayerFragment extends Fragment {
 
     private USeekPlayerCloseListener mListener;
 
-    public void setShowCloseButton(boolean showCloseButton) {
-        this.showCloseButton = showCloseButton;
+    private ImageButton mCloseButton;
+    private USeekPlayerView mUseekPlayerView;
+
+    /**
+     * Setter to show / hide close button
+     * @param closeButtonHidden     true if we want to hide close button
+     */
+    public void setCloseButtonHidden(boolean closeButtonHidden) {
+        this.mCloseButtonHidden = closeButtonHidden;
     }
 
-    private boolean showCloseButton = true;
+    private boolean mCloseButtonHidden = true;
 
+    /**
+     * Setter for loading text
+     * @param loadingText       String contents for loading text
+     */
     public void setLoadingText(String loadingText) {
-        this.loadingText = loadingText;
+        this.mLoadingText = loadingText;
+        if (this.mUseekPlayerView != null) {
+            this.mUseekPlayerView.setLoadingText(loadingText);
+        }
     }
 
-    private String loadingText;
+    private String mLoadingText;
 
-    private ImageButton closeButton;
-    private USeekPlayerView useekPlayerView;
+    /**
+     * Setter for close button event listner
+     * @param listener              Listener to consume the close event
+     */
+    public void setUSeekPlayerCloseListener(USeekPlayerCloseListener listener) {
+        this.mListener = listener;
+        if (mUseekPlayerView != null) {
+            mUseekPlayerView.setPlayerListener(mListener);
+        }
+    }
 
     public USeekPlayerFragment() {
         // Required empty public constructor
     }
 
     /**
-     * Use this construct method to create a new instance of
-     * this fragment using the provided parameters.
+     * Use this constructor to create a new instance of USeekPlayerFragment.
      *
      * @param gameId    unique game id provided by USeek, not nullable
      * @param userId    user's unique id registered in USeek, nullable
@@ -73,30 +120,24 @@ public class USeekPlayerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_useek, container, false);
-        closeButton = view.findViewById(R.id.useek_fragment_close_button);
-        closeButton.setOnClickListener(new View.OnClickListener() {
+        mCloseButton = view.findViewById(R.id.useek_fragment_close_button);
+        mCloseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onCloseButtonPressed();
             }
         });
-        if (showCloseButton)
-            closeButton.setVisibility(View.VISIBLE);
+        if (mCloseButtonHidden)
+            mCloseButton.setVisibility(View.VISIBLE);
         else
-            closeButton.setVisibility(View.INVISIBLE);
+            mCloseButton.setVisibility(View.INVISIBLE);
 
-        useekPlayerView = view.findViewById(R.id.useek_player_view);
-        useekPlayerView.setPlayerListener(mListener);
-        if (loadingText != null) {
-            useekPlayerView.setLoadingTextString(loadingText);
+        mUseekPlayerView = view.findViewById(R.id.useek_fragment_useek_player_view);
+        mUseekPlayerView.setPlayerListener(mListener);
+        if (mLoadingText != null) {
+            mUseekPlayerView.setLoadingText(mLoadingText);
         }
         return view;
-    }
-
-    public void onCloseButtonPressed() {
-        if (mListener != null) {
-            mListener.useekPlayerDidClosed(useekPlayerView);
-        }
     }
 
     @Override
@@ -104,9 +145,6 @@ public class USeekPlayerFragment extends Fragment {
         super.onAttach(context);
         if (context instanceof USeekPlayerCloseListener) {
             mListener = (USeekPlayerCloseListener) context;
-        }
-        if (useekPlayerView != null) {
-            useekPlayerView.loadVideo(this.mGameId, this.mUserId);
         }
     }
 
@@ -117,30 +155,56 @@ public class USeekPlayerFragment extends Fragment {
     }
 
     /**
-     * Setting USeekPlayerListener like as start, completed, failed loading video
+     * Start loading the video in USeekPlayerView
      *
-     * @param listener  handle listener of USeekPlayerCloseListener
+     * - Precondition: Publisher ID should be set
+     *
+     * @param gameId    unique game id provided by USeek, not nullable
+     * @param userId    user's unique id registered in USeek, nullable
      *
      */
-    public void setUSeekPlayerCloseListener(USeekPlayerCloseListener listener) {
-        this.mListener = listener;
-        if (useekPlayerView != null) {
-            useekPlayerView.setPlayerListener(mListener);
+    public void loadVideo(String gameId, String userId) {
+        this.mGameId = gameId;
+        this.mUserId = userId;
+        if (mUseekPlayerView != null) {
+            mUseekPlayerView.loadVideo(this.mGameId, this.mUserId);
         }
     }
 
+    private void onCloseButtonPressed() {
+        if (mListener != null) {
+            mListener.useekPlayerDidClosed(mUseekPlayerView);
+        }
+    }
+
+    /**
+     * Setter for game id
+     * @param gameId        Game ID to attend
+     */
     public void setGameId(String gameId) {
         this.mGameId = gameId;
     }
 
+    /**
+     * Getter for game id
+     * @return              Returns current game id
+     */
     public String getGameId() {
         return mGameId;
     }
 
+    /**
+     * Setter for user id
+     * @param userId        Current user id
+     */
     public void setUserId(String userId) {
         this.mUserId = userId;
     }
 
+    /**
+     * Getter for user id
+     * @return              Returns current user id
+     */
     public String getUserId() {
         return mUserId;
     }

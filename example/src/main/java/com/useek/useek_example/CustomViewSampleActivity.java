@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.View;
 import android.webkit.WebResourceError;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.useek.library_beta.USeekManager;
@@ -48,17 +47,17 @@ public class CustomViewSampleActivity extends AppCompatActivity implements USeek
                 settingsManager.getUserId(),
                 new USeekManager.RequestPointsListener() {
                     @Override
-                    public void didSuccess(int lastPlayPoints, int totalPlayPoints) {
+                    public void useekRequestForPlayPointsDidSuccess(int lastPlayPoints, int totalPlayPoints) {
                         textViewScore.setText(String.format("Your last play points : %d\nYour total play points : %d", lastPlayPoints, totalPlayPoints));
                         buttonGetScore.setEnabled(true);
                     }
 
                     @Override
-                    public void didFailure(Error error) {
+                    public void useekRequestForPlayPointsDidFail(Error error) {
                         if (error != null)
                             textViewScore.setText(error.getLocalizedMessage());
                         else
-                            textViewScore.setText("Error to loading score.");
+                            textViewScore.setText("Sorry, we've encountered an error while loading points");
 
                         buttonGetScore.setEnabled(true);
                     }

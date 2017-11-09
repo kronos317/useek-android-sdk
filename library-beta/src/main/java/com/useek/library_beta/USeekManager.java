@@ -1,6 +1,7 @@
 package com.useek.library_beta;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.json.JSONObject;
 
@@ -21,11 +22,12 @@ import java.util.Map;
 /**
  * Created by Chris Lin on 11/4/2017.
  *
- * This is singleton class for management USeek global variables
- * like as Publisher id, requesting for score.
+ * This singleton class provides the following features
+ *
+ *  - Set / Retrieve publisher id
+ *  - Request server for the points of certain user based on game id and publisher id
  *
  */
-
 public class USeekManager {
 
     private static final USeekManager ourInstance = new USeekManager();
@@ -37,11 +39,8 @@ public class USeekManager {
     private USeekManager() {
     }
 
-    private String publisherId;
-
-
     /**
-     * Mutable property to set / get publisher id.
+     * Setter for publisher id
      *
      * - Warning : You should set publisher id before loading video.
      *
@@ -52,17 +51,25 @@ public class USeekManager {
      * @param publisherId   publisher id provided by USeek
      */
     public void setPublisherId(String publisherId) {
-        this.publisherId = publisherId;
-    }
-
-    public String getPublisherId() {
-        return publisherId;
+        this.mPublisherId = publisherId;
     }
 
     /**
+     * Getter for publisher id
      *
-     * Queries the lastPlayPoints user has gained while playing the game.
-     * The centralized server will return users's lastPlayPoints based on gameId and userId.
+     * @return              String for publisher id
+     *
+     */
+    public String getPublisherId() {
+        return mPublisherId;
+    }
+
+    private String mPublisherId;
+
+    /**
+     *
+     * Queries the mLastPlayPoints user has gained while playing the game.
+     * The centralized server will return users's mLastPlayPoints based on mGameId and mUserId.
      *
      * - Precondition : Publisher ID should be set.
      *
@@ -75,21 +82,19 @@ public class USeekManager {
     public void requestPoints(String gameId, String userId, final RequestPointsListener listener) {
 
         // Check validate publisher id
-        if (this.publisherId == null || this.publisherId.length() == 0) {
-            listener.didFailure(new Error("Not set publisher id"));
+        if (this.mPublisherId == null || this.mPublisherId.length() == 0) {
+            listener.useekRequestForPlayPointsDidFail(new Error("Not set publisher id"));
             return;
         }
 
         // Check validate game id
         if (gameId == null || gameId.length() == 0) {
-            listener.didFailure(new Error("Invalid game id"));
+            listener.useekRequestForPlayPointsDidFail(new Error("Invalid game id"));
             return;
         }
 
         // Create parameter
         HashMap<String, String> params = new HashMap<>();
-//        params.put("publisherId", this.publisherId);
-//        params.put("gameId", gameId);
         if (userId != null && userId.length() > 0) {
             params.put("external_user_id", userId);
         } else {
@@ -100,7 +105,7 @@ public class USeekManager {
         String urlString =
                 String.format(
                         "https://www.useek.com/sdk/1.0/%s/%s/get_points",
-                        this.publisherId, gameId
+                        this.mPublisherId, gameId
                 );
 
         // execute request
@@ -108,12 +113,12 @@ public class USeekManager {
             @Override
             public void didSuccess(String response) {
                 USeekPlaybackResultDataModel model = new USeekPlaybackResultDataModel(response);
-                listener.didSuccess(model.getLastPlayPoints(), model.getTotalPlayPoints());
+                listener.useekRequestForPlayPointsDidSuccess(model.getLastPlayPoints(), model.getTotalPlayPoints());
             }
 
             @Override
             public void didFailure(Error error) {
-                listener.didFailure(error);
+                listener.useekRequestForPlayPointsDidFail(error);
             }
         });
 
@@ -153,44 +158,44 @@ public class USeekManager {
     }
 
     /**
-     * Interface for response of score lastPlayPoints
+     * Interface to retrieve points for the game plays
      */
     public interface RequestPointsListener {
-        void didSuccess(int lastPlayPoints, int totalPlayPoints);
-        void didFailure(Error error);
+        void useekRequestForPlayPointsDidSuccess(int lastPlayPoints, int totalPlayPoints);
+        void useekRequestForPlayPointsDidFail(Error error);
     }
 }
 
 class HttpClient {
 
-    public static final int GET = 1;
-    public static final int POST = 2;
+    static final int GET = 1;
+    static final int POST = 2;
 
     private String url;
-    private int requestType;
+    private int mRequestType;
     private HashMap<String,String> params ;
 
-    public String getUrl() {
+    String getUrl() {
         return url;
     }
 
-    public void setUrl(String url) {
+    void setUrl(String url) {
         this.url = url;
     }
 
-    public int getRequestType() {
-        return requestType;
+    int getRequestType() {
+        return mRequestType;
     }
 
-    public void setRequestType(int requestType) {
-        this.requestType = requestType;
+    void setRequestType(int requestType) {
+        this.mRequestType = requestType;
     }
 
-    public HashMap<String, String> getParams() {
+    HashMap<String, String> getParams() {
         return params;
     }
 
-    public void setParams(HashMap<String, String> params) {
+    void setParams(HashMap<String, String> params) {
         this.params = params;
     }
 
@@ -238,7 +243,8 @@ class HttpRequest extends AsyncTask<HttpClient, String, String> {
             e.printStackTrace();
             onError(new Error(e.toString()));
         }finally {
-            urlConnection.disconnect();
+            if (urlConnection != null)
+                urlConnection.disconnect();
         }
         return response.toString();
     }
@@ -281,86 +287,90 @@ class HttpRequest extends AsyncTask<HttpClient, String, String> {
 class USeekPlaybackResultDataModel {
 
     /// Properties
-    private String publisherId;
-    private String gameId;
-    private String userId;
-    private String externalUserId;
+    private String mPublisherId;
+    private String mGameId;
+    private String mUserId;
+    private String mInternalUserId;
 
-    private Boolean finished = false;
-    private int lastPlayPoints = 0;
-    private int totalPlayPoints = 0;
+    private Boolean mFinished = false;
+    private int mLastPlayPoints = 0;
+    private int mTotalPlayPoints = 0;
 
-    public String getGameId() {
-        return gameId;
+    String getGameId() {
+        return mGameId;
     }
 
-    public String getUserId() {
-        return userId;
+    String getUserId() {
+        return mUserId;
     }
 
-    public String getExternalUserId() {
-        return externalUserId;
+    String getInternalUserId() {
+        return mInternalUserId;
     }
 
-    public int getLastPlayPoints() {
-        return lastPlayPoints;
+    int getLastPlayPoints() {
+        return mLastPlayPoints;
     }
 
-    public int getTotalPlayPoints() {
-        return totalPlayPoints;
+    int getTotalPlayPoints() {
+        return mTotalPlayPoints;
     }
 
-    public Boolean getFinished() {
-        return finished;
+    public Boolean getmFinished() {
+        return mFinished;
     }
 
-    public USeekPlaybackResultDataModel(String string) {
+    USeekPlaybackResultDataModel(String string) {
         try {
             JSONObject obj = new JSONObject(string);
             if (obj.has("publisherId"))
-                this.publisherId = obj.getString("publisherId");
+                this.mPublisherId = obj.getString("publisherId");
             if (obj.has("gameId"))
-                this.gameId = obj.getString("gameId");
-            if (obj.has("userId"))
-                this.userId = obj.getString("userId");
+                this.mGameId = obj.getString("gameId");
             if (obj.has("externalUserId"))
-                this.externalUserId = obj.getString("externalUserId");
+                this.mUserId = obj.getString("externalUserId");
+            if (obj.has("userId"))
+                this.mInternalUserId = obj.getString("userId");
             if (obj.has("lastPlayPoints"))
-                this.lastPlayPoints = obj.getInt("lastPlayPoints");
+                this.mLastPlayPoints = obj.getInt("lastPlayPoints");
             if (obj.has("totalPoints"))
-                this.totalPlayPoints = obj.getInt("totalPoints");
+                this.mTotalPlayPoints = obj.getInt("totalPoints");
             if (obj.has("finished"))
-                this.finished = obj.getBoolean("finished");
+                this.mFinished = obj.getBoolean("finished");
         } catch (Throwable t) {
-
+            Log.e("USeek", "Incomplete parsing response data");
         }
     }
 
     public USeekPlaybackResultDataModel(HashMap<String, Object> data) {
-        this.publisherId = data.get("publisherId").toString();
-        this.gameId = data.get("gameId").toString();
-        this.userId = data.get("userId").toString();
-        this.lastPlayPoints = (int)data.get("lastPlayPoints");
-        this.finished = (boolean) data.get("finished");
+        this.mPublisherId = data.get("publisherId").toString();
+        this.mGameId = data.get("gameId").toString();
+        this.mUserId = data.get("externalUserId").toString();
+        this.mInternalUserId = data.get("userId").toString();
+        this.mLastPlayPoints = (int)data.get("lastPlayPoints");
+        this.mTotalPlayPoints = (int)data.get("totalPoints");
+        this.mFinished = (boolean) data.get("finished");
     }
 
     public USeekPlaybackResultDataModel(JSONObject jsonObject) {
         try {
             JSONObject obj = jsonObject;
             if (obj.has("publisherId"))
-                this.publisherId = obj.getString("publisherId");
+                this.mPublisherId = obj.getString("publisherId");
             if (obj.has("gameId"))
-                this.gameId = obj.getString("gameId");
+                this.mGameId = obj.getString("gameId");
+            if (obj.has("externalUserId"))
+                this.mUserId = obj.getString("externalUserId");
             if (obj.has("userId"))
-                this.userId = obj.getString("userId");
+                this.mInternalUserId = obj.getString("userId");
             if (obj.has("lastPlayPoints"))
-                this.lastPlayPoints = obj.getInt("lastPlayPoints");
+                this.mLastPlayPoints = obj.getInt("lastPlayPoints");
             if (obj.has("totalPoints"))
-                this.totalPlayPoints = obj.getInt("totalPoints");
+                this.mTotalPlayPoints = obj.getInt("totalPoints");
             if (obj.has("finished"))
-                this.finished = obj.getBoolean("finished");
+                this.mFinished = obj.getBoolean("finished");
         } catch (Throwable t) {
-
+            Log.e("USeek", "Incomplete parsing response data");
         }
     }
 
