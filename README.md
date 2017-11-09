@@ -27,7 +27,7 @@ The USeek interactive advertising solution turns your videos into engaging exper
 #### USeek:-
 [![Java](https://img.shields.io/badge/Language-Java-blue.svg?style=flat)](https://java.com/en/)
 
-Minimum API version : **15**
+Minimum API level **19**, Android OS **4.4.** (KitKat)
 
 
 Installation
@@ -55,19 +55,32 @@ implementation 'com.useek:library-beta:0.0.1'
 
 Usage
 --------
-##### You should set ```publisher ID``` provided by USeek on ```Application``` or ```MainActivity```.
+
+There are 4 main classes
+ * USeekManager
+ * USeekPlayerView
+ * USeekPlayerFragment
+ * USeekPlayerActivity
+
+`USeekManager` is singleton class, with which you can do the following actions
+ * Set / Retrieve `publisher ID`
+ * Request for the points of certain user
+ 
+`USeekPlayerView`, `USeekPlayerFragment`, and `USeekPlayerActivity` classes are designed to easily load & play the video in any fragments / activities or layouts. You can use any of these 3 classes as per your need / use case.
+Demo project demonstrates all use cases.
+
+#### Set Publisher ID
+
 ```java
-USeekManager.sharedInstance().setPublisherId("{your publisher id}");
-```
-##### Also you should set ```game id``` and ```user id``` when play video
-```java
-useekPlayerView.loadVideo(gameId, userId);
+USeekManager.sharedInstance().setPublisherId("{your publisher ID}");
 ```
 
-There are some usage methods of USeek SDK.
+#### How to use USeekPlayerView
 
-### Adding ```USeekPlayerView```
-#### Add ```USeekPlayerView``` to layout resource:
+USeekPlayerView inherits FrameLayout, thus you can directly add it in layout resource file or add as subview programmatically.
+
+ - Drop into layout resource file
+ 
 ```xml
 <com.useek.library_beta.USeekPlayerView
     android:id="@+id/custom_activity_useek_view"
@@ -75,19 +88,21 @@ There are some usage methods of USeek SDK.
     android:layout_height="match_parent"
     app:useek_loadingText="Please wait while loading..." />
 ```
-```app:useek_loadingText``` paramter is optional value to change loading placeholder text.
 
-#### Implement ```USeekPlayerView``` code in your activity.
+`app:useek_loadingText` paramter is optional value to change loading placeholder text.
+
+Now you can play the video.
+
 ```java
     useekPlayerView = findViewById(R.id.custom_activity_useek_view);
-    useekPlayerView.setPlayerListener(this);        
     useekPlayerView.loadVideo("{game id}", "{user id}");
- ```
+```
  
-### Adding ```USeekPlayerView``` without use layout resource.
+ - Add as subview programmatically
+ 
 ```java
     USeekPlayerView useekPlayerView = new USeekPlayerView(this);
-    useekPlayerViewContainer.addView(
+    this.mainContainer.addView(
             useekPlayerView.getView(),
             new LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,
@@ -96,11 +111,17 @@ There are some usage methods of USeek SDK.
     );
 ```
 
-### Adding ```USeekPlayerFragment```
+Now you can play the video.
+
+```java
+    useekPlayerView.loadVideo("{game id}", "{user id}");
+```
+
+#### USeekPlayerFragment to load video
 
 ```java
 
-    USeekPlayerFragment fragment = USeekPlayerFragment.newInstance("{gameId}", "{userId}");
+    USeekPlayerFragment fragment = USeekPlayerFragment.newInstance("{your game id}", "{your user id}");
     getSupportFragmentManager()
             .beginTransaction()
             .add(R.id.fragment_container, fragment)
@@ -108,161 +129,46 @@ There are some usage methods of USeek SDK.
 
 ```
 
-### Adding ```USeekPlayerActivity```
+Now you can play video.
+
+```java
+    fragment.loadVideo("{game id}", "{user id}");
+```
+
+#### USeekPlayerActivity to load video
+
+You will need to import 2 keys.
 
 ```java
 import static com.useek.library_beta.USeekPlayerActivity.USEEK_GAME_ID;
 import static com.useek.library_beta.USeekPlayerActivity.USEEK_USER_ID;
-...
+```
 
-public void openUSeekPlayerActivity() {
-
+```java
     Intent intent = new Intent(this, USeekPlayerActivity.class);
     intent.putExtra(USEEK_USER_ID, "{user id}");
     intent.putExtra(USEEK_GAME_ID, "{game id}");
     startActivity(intent);
-}
-
 ```
 
+Once activity is open, it will play the video automatically.
 
-### How to get points score
+#### How to get points from server
 
 ```java
 USeekManager.sharedInstance().requestPoints("{game id}", "{user id}",
         new USeekManager.RequestPointsListener() {
             @Override
-            public void didSuccess(int points) {
-                Log.d("USeek Sample", String.valueOf(points);
+            public void useekRequestForPlayPointsDidSuccess(int lastPlayPoints, int totalPlayPoints) {
             }
 
             @Override
-            public void didFailure(Error error) {
-
+            public void useekRequestForPlayPointsDidFail(Error error) {
             }
         }
 );
 ```
 
+## License
 
-Properties
-========
-### USeekPlayerView
-* Set unique game id provided by USeek.
-```java
-public void setGameId(String gameId)
-```
-
-* Get unique game id
-```java
-public String getGameId()
-```
-
-* Set user's unique id registered on USeek
-```java
-public void setUserId(String userId)
-```
-
-* Get user's unique id registered on USeek
-```java
-public String getUserId()
-```
-
-* Set listener for video loading status
-```java
-public void setPlayerListener(USeekPlayerListener playerListener)
-```
-
-* Load Video with existing GameId and UserId
-```java
-public void loadVideo()
-```
-
-* Load Video with GameId and UserId
-```java
-public void loadVideo(String gameId, String userId)
-```
-
-* Set placeholder text for loading video
-```java
-public void setLoadingTextString(String loadingTextString)
-```
-
-* Create USeekPlayerView instance
-```java
-public View getView()
-```
-
-
-### USeekPlayerFragment
-* Set showing option of close button
-```java
-public void setShowCloseButton(boolean showCloseButton)
-```
-
-* Set placeholder text for loading video
-```java
-public void setLoadingText(String loadingText)
-```
-
-* Set ```USeekPlayerCloseListener``` to monitor status of loading video like as start, completed, failed and close fragment
-```java
-public void setUSeekPlayerCloseListener(USeekPlayerCloseListener listener)
-```
-
-### USeekPlayerActivity
-
-_**USeekPlayerActivity use static methods to set properties**_
-
-* **CONSTANT** for parameter key of User ID
-```java
-public static final String USEEK_USER_ID = "userId";
-```
-
-* **CONSTANT** for parameter key of Game ID
-```java
-public static final String USEEK_GAME_ID = "gameId";
-```
-
-* Set ```USeekPlayerCloseListener``` to monitor status of loading video like as start, completed, failed and close activity
-```java
-public static void setUSeekPlayerCloseListener(USeekPlayerCloseListener listener)
-```
-
-* Set showing option of close button
-```java
-public static void setShowCloseButton(boolean showCloseButton)
-```
-
-* Set placeholder text for loading video
-```java
-public static void setLoadingText(String loadingText)
-```
-
-Listener
-=======
-
-### USeekPlayerListener
-* Called when player detected an error while loading the video.
-```java
-void useekPlayerDidFailWithError(USeekPlayerView useekPlayerView, WebResourceError error);
-```
-
-* Called when player did start loading the video.
-```java
-void useekPlayerDidStartLoad(USeekPlayerView useekPlayerView);
-```
-
-* Called when player did finish loading the video.
-```java
-void useekPlayerDidFinishLoad(USeekPlayerView useekPlayerView);
-```
-
-### USeekPlayerCloseListener
-```USeekPlayerCloseListener``` is sub interface of ```USeekPlayerListener```.
-
-* Called when user clicked close button to dismiss the Activity or Fragment.
-```java
-void useekPlayerDidClosed(USeekPlayerView useekPlayerView);
-```
-
+USeek is available under the USEEK license. See the LICENSE file for more info.
