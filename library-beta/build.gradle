@@ -51,9 +51,9 @@ ext {
 
     libraryVersion = '0.0.1'
 
-    developerId = 'nuuneoi'
-    developerName = 'Sittiphol Phanvilai'
-    developerEmail = 'sittiphol@gmail.com'
+    developerId = 'chrislin89'
+    developerName = 'Chris Lin'
+    developerEmail = 'chrislin.317@hotmail.com'
 
     licenseName = 'The Apache Software License, Version 2.0'
     licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
