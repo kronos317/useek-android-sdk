@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("USeek Sample", "useekPlayerDidFinishLoad()");
             }
         });
-        USeekPlayerActivity.setCloseButtonHidden(settingsManager.isShowCloseButton());
+        USeekPlayerActivity.setCloseButtonHidden(!settingsManager.isShowCloseButton());
         USeekPlayerActivity.setLoadingText(settingsManager.getLoadingText());
 
         Intent intent = new Intent(this, USeekPlayerActivity.class);

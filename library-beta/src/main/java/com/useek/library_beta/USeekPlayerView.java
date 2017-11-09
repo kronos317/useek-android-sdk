@@ -235,8 +235,15 @@ public class USeekPlayerView extends FrameLayout {
 
         /** Load Video URL */
         mWebView.loadUrl(url.toString());
-
     }
+
+    /**
+     * Destroy view
+     */
+    public void destroy() {
+        mWebView.destroy();
+    }
+
 
     /**
      * Generate Video url

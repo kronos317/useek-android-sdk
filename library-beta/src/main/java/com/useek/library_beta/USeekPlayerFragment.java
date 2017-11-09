@@ -128,9 +128,9 @@ public class USeekPlayerFragment extends Fragment {
             }
         });
         if (mCloseButtonHidden)
-            mCloseButton.setVisibility(View.VISIBLE);
-        else
             mCloseButton.setVisibility(View.INVISIBLE);
+        else
+            mCloseButton.setVisibility(View.VISIBLE);
 
         mUseekPlayerView = view.findViewById(R.id.useek_fragment_useek_player_view);
         mUseekPlayerView.setPlayerListener(mListener);
@@ -152,6 +152,8 @@ public class USeekPlayerFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        if (mUseekPlayerView != null)
+            mUseekPlayerView.destroy();
     }
 
     /**

@@ -56,7 +56,7 @@ public class FragmentSampleActivity extends AppCompatActivity implements View.On
                 settingsManager.getGameId(),
                 settingsManager.getUserId()
         );
-        fragment.setCloseButtonHidden(settingsManager.isShowCloseButton());
+        fragment.setCloseButtonHidden(!settingsManager.isShowCloseButton());
         fragment.setLoadingText(settingsManager.getLoadingText());
         fragment.setUSeekPlayerCloseListener(new USeekPlayerCloseListener() {
             @Override

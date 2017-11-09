@@ -116,10 +116,18 @@ public class USeekPlayerActivity extends AppCompatActivity {
         mUseekPlayerView.loadVideo(mGameId, mUserId);
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mUseekPlayerView != null)
+            mUseekPlayerView.destroy();
+    }
+
     protected void onCloseButtonPressed() {
         if (mListener != null) {
             mListener.useekPlayerDidClosed(mUseekPlayerView);
         }
+
         this.finish();
     }
 
