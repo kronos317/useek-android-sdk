@@ -1,6 +1,8 @@
 package com.useek.useek_example;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -81,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void useekPlayerDidClosed(USeekPlayerView useekPlayerView) {
                 Log.d("USeek Sample", "didClose()");
+                promptRequestPoints();
             }
 
             @Override
@@ -186,5 +189,25 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void promptRequestPoints() {
+        AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+        alertDialog.setTitle("Confirmation");
+        alertDialog.setMessage("Would you like to know your points?");
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "YES",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        onPressedRequestPoint();
+                    }
+                });
+        alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "NO", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        alertDialog.show();
     }
 }
