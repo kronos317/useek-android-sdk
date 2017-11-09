@@ -94,45 +94,45 @@ USeekPlayerView inherits FrameLayout, thus you can directly add it in layout res
 Now you can play the video.
 
 ```java
-    useekPlayerView = findViewById(R.id.custom_activity_useek_view);
-    useekPlayerView.loadVideo("{game id}", "{user id}");
+useekPlayerView = findViewById(R.id.custom_activity_useek_view);
+useekPlayerView.loadVideo("{game id}", "{user id}");
 ```
  
  - Add as subview programmatically
  
 ```java
-    USeekPlayerView useekPlayerView = new USeekPlayerView(this);
-    this.mainContainer.addView(
-            useekPlayerView.getView(),
-            new LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT
-            )
-    );
+USeekPlayerView useekPlayerView = new USeekPlayerView(this);
+this.mainContainer.addView(
+        useekPlayerView.getView(),
+        new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+        )
+);
 ```
 
 Now you can play the video.
 
 ```java
-    useekPlayerView.loadVideo("{game id}", "{user id}");
+useekPlayerView.loadVideo("{game id}", "{user id}");
 ```
 
 #### USeekPlayerFragment to load video
 
 ```java
 
-    USeekPlayerFragment fragment = USeekPlayerFragment.newInstance("{your game id}", "{your user id}");
-    getSupportFragmentManager()
-            .beginTransaction()
-            .add(R.id.fragment_container, fragment)
-            .commit();
+USeekPlayerFragment fragment = USeekPlayerFragment.newInstance("{your game id}", "{your user id}");
+getSupportFragmentManager()
+        .beginTransaction()
+        .add(R.id.fragment_container, fragment)
+        .commit();
 
 ```
 
 Now you can play video.
 
 ```java
-    fragment.loadVideo("{game id}", "{user id}");
+fragment.loadVideo("{game id}", "{user id}");
 ```
 
 #### USeekPlayerActivity to load video
@@ -145,10 +145,10 @@ import static com.useek.library_beta.USeekPlayerActivity.USEEK_USER_ID;
 ```
 
 ```java
-    Intent intent = new Intent(this, USeekPlayerActivity.class);
-    intent.putExtra(USEEK_USER_ID, "{user id}");
-    intent.putExtra(USEEK_GAME_ID, "{game id}");
-    startActivity(intent);
+Intent intent = new Intent(this, USeekPlayerActivity.class);
+intent.putExtra(USEEK_USER_ID, "{user id}");
+intent.putExtra(USEEK_GAME_ID, "{game id}");
+startActivity(intent);
 ```
 
 Once activity is open, it will play the video automatically.
