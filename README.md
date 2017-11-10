@@ -98,10 +98,14 @@ useekPlayerView = findViewById(R.id.custom_activity_useek_view);
 useekPlayerView.loadVideo("{game id}", "{user id}");
 ```
 
-You should destroy when leave `Activity` which is including `USeekPlayerView`.
+**Attention** : You should destroy `USeekPlayerView` when the parent activity is being dismissed. You can do this in `Activity.onStop()` method
 
 ```java
-useekPlayerView.destroy();
+@Override
+protected void onStop() {
+    super.onStop();
+    useekPlayerView.destroy();
+}
 ```
 
  - Add as subview programmatically
@@ -121,12 +125,6 @@ Now you can play the video.
 
 ```java
 useekPlayerView.loadVideo("{game id}", "{user id}");
-```
-
-Destroy `USeekPlayerView`.
-
-```java
-useekPlayerView.destroy();
 ```
 
 #### USeekPlayerFragment to load video
