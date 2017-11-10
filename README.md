@@ -34,12 +34,12 @@ Installation
 ==========================
 
 ### Gradle:
-Gradle version < 3.0
+Gradle version < 4.0
 ```groovy
 compile 'com.useek:library-beta:0.0.1'
 ```
 
-Gradle version >= 3.0
+Gradle version >= 4.0
 ```groovy
 implementation 'com.useek:library-beta:0.0.1'
 ```
