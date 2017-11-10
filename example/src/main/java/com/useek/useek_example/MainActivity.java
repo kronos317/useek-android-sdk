@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
 
         ExampleSettingsManager settingsManager = ExampleSettingsManager.sharedInstance();
 
+        /*
         USeekPlayerActivity.setUSeekPlayerCloseListener(new USeekPlayerCloseListener() {
             @Override
             public void useekPlayerDidClosed(USeekPlayerView useekPlayerView) {
@@ -102,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
         });
         USeekPlayerActivity.setCloseButtonHidden(!settingsManager.isShowCloseButton());
         USeekPlayerActivity.setLoadingText(settingsManager.getLoadingText());
+        */
 
         Intent intent = new Intent(this, USeekPlayerActivity.class);
         intent.putExtra(USEEK_USER_ID, settingsManager.getUserId());

@@ -84,6 +84,7 @@ public class FragmentSampleActivity extends AppCompatActivity implements View.On
                 .beginTransaction()
                 .add(R.id.fragment_container, fragment)
                 .commit();
+        fragment.loadVideo();
 
         buttonShowUSeekView.setEnabled(false);
         buttonRemoveFragment.setEnabled(true);

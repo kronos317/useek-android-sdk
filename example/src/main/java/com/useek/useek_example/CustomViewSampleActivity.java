@@ -65,6 +65,12 @@ public class CustomViewSampleActivity extends AppCompatActivity implements USeek
         );
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        useekPlayerView.destroy();
+    }
+
     /** USeekPlayerView listener */
 
     @Override

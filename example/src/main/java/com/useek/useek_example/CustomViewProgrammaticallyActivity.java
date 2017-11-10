@@ -84,6 +84,12 @@ public class CustomViewProgrammaticallyActivity extends AppCompatActivity implem
         );
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        useekPlayerView.destroy();
+    }
+
     /** USeekPlayerView listener */
 
     @Override

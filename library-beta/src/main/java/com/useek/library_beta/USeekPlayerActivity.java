@@ -66,7 +66,7 @@ public class USeekPlayerActivity extends AppCompatActivity {
      * Setter for close button event listner
      * @param listener              Listener to consume the close event
      */
-    public static void setUSeekPlayerCloseListener(USeekPlayerCloseListener listener) {
+    private static void setUSeekPlayerCloseListener(USeekPlayerCloseListener listener) {
         USeekPlayerActivity.mListener = listener;
     }
 
@@ -76,7 +76,7 @@ public class USeekPlayerActivity extends AppCompatActivity {
      * Setter to show / hide close button
      * @param closeButtonHidden     true if we want to hide close button
      */
-    public static void setCloseButtonHidden(boolean closeButtonHidden) {
+    private static void setCloseButtonHidden(boolean closeButtonHidden) {
         USeekPlayerActivity.mCloseButtonHidden = closeButtonHidden;
     }
 
@@ -84,7 +84,7 @@ public class USeekPlayerActivity extends AppCompatActivity {
      * Setter for loading text
      * @param loadingText       String contents for loading text
      */
-    public static void setLoadingText(String loadingText) {
+    private static void setLoadingText(String loadingText) {
         USeekPlayerActivity.mLoadingText = loadingText;
     }
 

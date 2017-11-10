@@ -208,6 +208,11 @@ public class USeekPlayerView extends FrameLayout {
             return;
         }
 
+        if (mWebView == null) {
+            Log.e(mTagName, "Not created web view.");
+            return;
+        }
+
         /** Initialize WebView */
         this.initializeWebView();
 
@@ -241,7 +246,9 @@ public class USeekPlayerView extends FrameLayout {
      * Destroy view
      */
     public void destroy() {
+        this.removeView(mWebView);
         mWebView.destroy();
+        mWebView = null;
     }
 
 

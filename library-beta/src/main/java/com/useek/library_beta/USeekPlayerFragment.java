@@ -159,6 +159,20 @@ public class USeekPlayerFragment extends Fragment {
     /**
      * Start loading the video in USeekPlayerView
      *
+     * - Precondition:  Publisher ID should be set
+     *                  Game ID and User ID should be set when create Fragment instance.
+     *                  This method will use game id and user id which set by newInstance method.
+     *
+     */
+    public void loadVideo() {
+        if (mUseekPlayerView != null) {
+            mUseekPlayerView.loadVideo(this.mGameId, this.mUserId);
+        }
+    }
+
+    /**
+     * Start loading the video in USeekPlayerView
+     *
      * - Precondition: Publisher ID should be set
      *
      * @param gameId    unique game id provided by USeek, not nullable
