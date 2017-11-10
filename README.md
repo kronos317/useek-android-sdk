@@ -97,7 +97,13 @@ Now you can play the video.
 useekPlayerView = findViewById(R.id.custom_activity_useek_view);
 useekPlayerView.loadVideo("{game id}", "{user id}");
 ```
- 
+
+You should destroy when leave `Activity` which is including `USeekPlayerView`.
+
+```java
+useekPlayerView.destroy();
+```
+
  - Add as subview programmatically
  
 ```java
@@ -117,6 +123,12 @@ Now you can play the video.
 useekPlayerView.loadVideo("{game id}", "{user id}");
 ```
 
+Destroy `USeekPlayerView`.
+
+```java
+useekPlayerView.destroy();
+```
+
 #### USeekPlayerFragment to load video
 
 ```java
@@ -132,7 +144,7 @@ getSupportFragmentManager()
 Now you can play video.
 
 ```java
-fragment.loadVideo("{game id}", "{user id}");
+fragment.loadVideo();
 ```
 
 #### USeekPlayerActivity to load video
