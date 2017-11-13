@@ -1,36 +1,184 @@
-USeek SDK
-====
+<p align="center">
+<img src="https://static1.squarespace.com/static/592df079893fc0e042b0e585/t/592df28c3e00be8e7a34d733/1498102982326/?format=1500w" alt="Icon"/>
+</p>
 
-Three simple steps to integrate USeek SDK into your application:
+[![License](https://img.shields.io/cocoapods/l/USeek.svg?style=flat)](http://cocoapods.org/pods/USeek)
 
-1. Add new module by importing [useeksdk.aar](https://bitbucket.org/useek/useek-android-sdk/src/3f28df4f3669ba4e018c7686820e051bba5a2446/useeksdk.aar?at=master) library.
-2. Go to **Project Structure** and add **useeksdk** library as a dependency of your app
-3. Put this code wherever you'd like trigger USeek player:
-```java
-UseekSDK sdk = new UseekSDK(activity); // UseekSDK needs activity to show player  
-sdk.setPublisherId("your-publisher-id"); // publisher id received from USeek
-sdk.setUserId("external-user-id"); // user id from your application 
-sdk.setVideoId(125); // id of video which should be played, most likely received from USeek as well
-sdk.playVideo();
+## What is USeek?
+
+The USeek interactive advertising solution turns your videos into engaging experiences full of rewards...
+
+[![Rewards](https://static1.squarespace.com/static/592df079893fc0e042b0e585/t/59496cddbe6594e7cda66c6a/1497984245701/?format=1500w)](https://www.landing.useek.com/)
+
+...Increasing viewer attention while searching your creative for objects.
+
+## USeek Library
+
+`USeek` library is designed to help developers easily add the enjoyable features of USeek in their own application.
+
+## Warning
+
+- **USeek** utilizes the power of `web browser`'s interactive video feature, and this is only available from ??? or later. 
+
+## Requirements
+
+[![Platform Android](https://img.shields.io/badge/Platform-Android-blue.svg?style=fla)]()
+
+#### USeek:-
+[![Java](https://img.shields.io/badge/Language-Java-blue.svg?style=flat)](https://java.com/en/)
+
+Minimum API level **19**, Android OS **4.4.** (KitKat)
+
+
+Installation
+==========================
+
+### Gradle:
+Gradle version < 4.0
+```groovy
+compile 'com.useek:library-beta:0.0.1'
 ```
 
-## Instructions for Android Studio ##
-
-1. Copy [useeksdk.aar](https://bitbucket.org/useek/useek-android-sdk/src/3f28df4f3669ba4e018c7686820e051bba5a2446/useeksdk.aar?at=master) to your ```/app/libs``` directory.
-2. Import the module into your app - (instructions [here](http://stackoverflow.com/a/34919810/6557231) )
-3. Trigger the useek player as shown above.
-
-## How to show earned rewards to User ##
-
-1. Implement USeek SDK in your application as shown above
-2. Use this code to show rewards:
-```java
-UseekSDK sdk = new UseekSDK(activity); // UseekSDK needs activity to show player  
-sdk.setPublisherId("your-publisher-id"); // publisher id received from USeek
-sdk.setUserId("external-user-id"); // user id from your application 
-sdk.showRewards();
+Gradle version >= 4.0
+```groovy
+implementation 'com.useek:library-beta:0.0.1'
 ```
-3. Some of USeek rewards may be georestricted and will require GPS location, `UseekSDK#showRewards()` method will try to send location but you have to integrate Google Play Services (see more [here](https://developers.google.com/android/guides/setup) into your application to make that work. You can do this by adding below line to your application main `build.gradle` file:
-```java
-compile 'com.google.android.gms:play-services-location:9.4.0'
+### Maven:
+```xml
+<dependency>
+  <groupId>com.useek</groupId>
+  <artifactId>library-beta</artifactId>
+  <version>0.0.1</version>
+  <type>pom</type>
+</dependency>
 ```
+
+Usage
+--------
+
+There are 4 main classes
+ * USeekManager
+ * USeekPlayerView
+ * USeekPlayerFragment
+ * USeekPlayerActivity
+
+`USeekManager` is singleton class, with which you can do the following actions
+ * Set / Retrieve `publisher ID`
+ * Request for the points of certain user
+ 
+`USeekPlayerView`, `USeekPlayerFragment`, and `USeekPlayerActivity` classes are designed to easily load & play the video in any fragments / activities or layouts. You can use any of these 3 classes as per your need / use case.
+Demo project demonstrates all use cases.
+
+#### Set Publisher ID
+
+```java
+USeekManager.sharedInstance().setPublisherId("{your publisher ID}");
+```
+
+#### How to use USeekPlayerView
+
+USeekPlayerView inherits FrameLayout, thus you can directly add it in layout resource file or add as subview programmatically.
+
+ - Drop into layout resource file
+ 
+```xml
+<com.useek.library_beta.USeekPlayerView
+    android:id="@+id/custom_activity_useek_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:useek_loadingText="Please wait while loading..." />
+```
+
+`app:useek_loadingText` paramter is optional value to change loading placeholder text.
+
+Now you can play the video.
+
+```java
+useekPlayerView = findViewById(R.id.custom_activity_useek_view);
+useekPlayerView.loadVideo("{game id}", "{user id}");
+```
+
+**Attention** : You should destroy `USeekPlayerView` when the parent activity is being dismissed. You can do this in `Activity.onStop()` method
+
+```java
+@Override
+protected void onStop() {
+    super.onStop();
+    useekPlayerView.destroy();
+}
+```
+
+ - Add as subview programmatically
+ 
+```java
+USeekPlayerView useekPlayerView = new USeekPlayerView(this);
+this.mainContainer.addView(
+        useekPlayerView.getView(),
+        new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+        )
+);
+```
+
+Now you can play the video.
+
+```java
+useekPlayerView.loadVideo("{game id}", "{user id}");
+```
+
+#### USeekPlayerFragment to load video
+
+```java
+
+USeekPlayerFragment fragment = USeekPlayerFragment.newInstance("{your game id}", "{your user id}");
+getSupportFragmentManager()
+        .beginTransaction()
+        .add(R.id.fragment_container, fragment)
+        .commit();
+
+```
+
+Now you can play video.
+
+```java
+fragment.loadVideo();
+```
+
+#### USeekPlayerActivity to load video
+
+You will need to import 2 keys.
+
+```java
+import static com.useek.library_beta.USeekPlayerActivity.USEEK_GAME_ID;
+import static com.useek.library_beta.USeekPlayerActivity.USEEK_USER_ID;
+```
+
+```java
+Intent intent = new Intent(this, USeekPlayerActivity.class);
+intent.putExtra(USEEK_USER_ID, "{user id}");
+intent.putExtra(USEEK_GAME_ID, "{game id}");
+startActivity(intent);
+```
+
+Once activity is open, it will play the video automatically.
+
+#### How to get points from server
+
+```java
+USeekManager.sharedInstance().requestPoints("{game id}", "{user id}",
+        new USeekManager.RequestPointsListener() {
+            @Override
+            public void useekRequestForPlayPointsDidSuccess(int lastPlayPoints, int totalPlayPoints) {
+            }
+
+            @Override
+            public void useekRequestForPlayPointsDidFail(Error error) {
+            }
+        }
+);
+```
+
+## License
+
+USeek is available under the USEEK license. See the LICENSE file for more info.

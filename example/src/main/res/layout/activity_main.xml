@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.useek.useek_example.MainActivity"
+    android:layout_margin="30dp">
+
+    <Button
+        android:id="@+id/main_activity_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Start Activity Sample"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/main_activity_fragment_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Start Fragment Sample"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="@id/main_activity_button"
+        app:layout_constraintTop_toBottomOf="@id/main_activity_button"/>
+
+    <Button
+        android:id="@+id/main_activity_custom_view_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Start Custom View Sample"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="@id/main_activity_button"
+        app:layout_constraintTop_toBottomOf="@id/main_activity_fragment_button"/>
+
+    <Button
+        android:id="@+id/main_activity_programmatically_custom_view_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Start Custom View Sample\n(Add Programmatically)"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="@id/main_activity_button"
+        app:layout_constraintTop_toBottomOf="@id/main_activity_custom_view_button"/>
+
+    <Button
+        android:id="@+id/main_activity_request_points"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Request Latest Points"
+        android:layout_marginTop="50dp"
+        app:layout_constraintStart_toStartOf="@id/main_activity_button"
+        app:layout_constraintTop_toBottomOf="@id/main_activity_programmatically_custom_view_button"/>
+
+</android.support.constraint.ConstraintLayout>
