@@ -57,14 +57,14 @@ Usage
 --------
 
 There are 4 main classes
- * USeekManager
- * USeekPlayerView
- * USeekPlayerFragment
- * USeekPlayerActivity
+ - USeekManager
+ - USeekPlayerView
+ - USeekPlayerFragment
+ - USeekPlayerActivity
 
 `USeekManager` is singleton class, with which you can do the following actions
- * Set / Retrieve `publisher ID`
- * Request for the points of certain user
+ - Set / Retrieve `publisher ID`
+ - Request for the points of certain user
  
 `USeekPlayerView`, `USeekPlayerFragment`, and `USeekPlayerActivity` classes are designed to easily load & play the video in any fragments / activities or layouts. You can use any of these 3 classes as per your need / use case.
 Demo project demonstrates all use cases.
