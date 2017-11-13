@@ -27,7 +27,7 @@ The USeek interactive advertising solution turns your videos into engaging exper
 #### USeek:-
 [![Java](https://img.shields.io/badge/Language-Java-blue.svg?style=flat)](https://java.com/en/)
 
-Minimum API level **19**, Android OS **4.4.** (KitKat)
+Minimum API level **19**, Android OS **4.4** (KitKat)
 
 
 Installation
@@ -36,12 +36,12 @@ Installation
 ### Gradle:
 Gradle version < 4.0
 ```groovy
-compile 'com.useek:library-beta:0.0.1'
+compile 'com.useek:library-beta:0.0.2'
 ```
 
 Gradle version >= 4.0
 ```groovy
-implementation 'com.useek:library-beta:0.0.1'
+implementation 'com.useek:library-beta:0.0.2'
 ```
 ### Maven:
 ```xml

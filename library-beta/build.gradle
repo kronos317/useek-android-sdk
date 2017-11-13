@@ -39,6 +39,7 @@ dependencies {
 ext {
     bintrayRepo = 'library-beta'
     bintrayName = 'useek-android-sdk'
+    versionName = "0.0.2"
 
     publishedGroupId = 'com.useek'
     libraryName = 'USeek-Library'
@@ -49,7 +50,7 @@ ext {
     siteUrl = 'https://github.com/chrislin89/useek-android-sdk'
     gitUrl = 'https://github.com/chrislin89/useek-android-sdk.git'
 
-    libraryVersion = '0.0.1'
+    libraryVersion = '0.0.2'
 
     developerId = 'chrislin89'
     developerName = 'Chris Lin'
