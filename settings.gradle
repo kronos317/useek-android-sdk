@@ -1,1 +1,1 @@
-include ':example', ':library-beta'
+include ':example', ':library-beta', ':library-kt-beta'

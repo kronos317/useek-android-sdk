@@ -1,0 +1,5 @@
+<resources>
+    <declare-styleable name="USeekPlayerView">
+        <attr name="useek_loadingText" format="string" />
+    </declare-styleable>
+</resources>
