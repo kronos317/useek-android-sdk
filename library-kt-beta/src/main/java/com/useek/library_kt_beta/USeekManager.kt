@@ -1,5 +1,6 @@
 package com.useek.library_kt_beta
 
+import android.os.StrictMode
 import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -8,6 +9,10 @@ import java.net.HttpURLConnection
 import java.net.URL
 import java.net.URLEncoder
 import java.util.*
+import android.os.StrictMode.setThreadPolicy
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.launch
+
 
 /**
  * Created by Chris Lin on 19/4/2018.
@@ -106,38 +111,44 @@ class USeekManager {
         var reqParam = getParamsString(params, HttpMethod.POST)
         val mURL = URL(if (method == HttpMethod.POST) url else "$url?$reqParam")
 
-        with(mURL.openConnection() as HttpURLConnection) {
-            // optional default is GET
-            requestMethod = if (method == HttpMethod.POST) "POST" else "GET"
+        val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
+        StrictMode.setThreadPolicy(policy)
 
-            if (method == HttpMethod.POST) {
-                val wr = OutputStreamWriter(outputStream)
-                wr.write(reqParam)
-                wr.flush()
-            }
+        launch(UI) {
+            with(mURL.openConnection() as HttpURLConnection) {
+                // optional default is GET
+                requestMethod = if (method == HttpMethod.POST) "POST" else "GET"
 
-            println("URL : $url")
-            println("Response Code : $responseCode")
-
-            BufferedReader(InputStreamReader(inputStream)).use {
-                val response = StringBuffer()
-
-                var inputLine = it.readLine()
-                while (inputLine != null) {
-                    response.append(inputLine)
-                    inputLine = it.readLine()
+                if (method == HttpMethod.POST) {
+                    val wr = OutputStreamWriter(outputStream)
+                    wr.write(reqParam)
+                    wr.flush()
                 }
-                it.close()
-                println("Response : $response")
 
-                if (responseCode in 200..299) {
-                    complete(response.toString(), null)
-                } else {
-                    val error = Error(response.toString())
-                    complete(null, error)
+                println("URL : $url")
+                println("Response Code : $responseCode")
+
+                BufferedReader(InputStreamReader(inputStream)).use {
+                    val response = StringBuffer()
+
+                    var inputLine = it.readLine()
+                    while (inputLine != null) {
+                        response.append(inputLine)
+                        inputLine = it.readLine()
+                    }
+                    it.close()
+                    println("Response : $response")
+
+                    if (responseCode in 200..299) {
+                        complete(response.toString(), null)
+                    } else {
+                        val error = Error(response.toString())
+                        complete(null, error)
+                    }
                 }
             }
         }
+
     }
 
     private fun getParamsString(params: HashMap<String, String>?, methodType: HttpMethod): String? {

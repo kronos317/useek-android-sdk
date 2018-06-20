@@ -1,1 +1,1 @@
-include ':example', ':library-beta', ':library-kt-beta'
+include ':example', ':library-beta', ':library-kt-beta', ':example-kotlin'

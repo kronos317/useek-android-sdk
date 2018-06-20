@@ -137,6 +137,7 @@ public class USeekPlayerFragment extends Fragment {
         if (mLoadingText != null) {
             mUseekPlayerView.setLoadingText(mLoadingText);
         }
+        loadVideo();
         return view;
     }
 

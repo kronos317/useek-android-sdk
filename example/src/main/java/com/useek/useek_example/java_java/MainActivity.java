@@ -1,22 +1,21 @@
-package com.useek.useek_example;
+package com.useek.useek_example.java_java;
 
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.WebResourceError;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.useek.library_beta.USeekManager;
 import com.useek.library_beta.USeekPlayerActivity;
-import com.useek.library_beta.USeekPlayerCloseListener;
-import com.useek.library_beta.USeekPlayerView;
+import com.useek.useek_example.ExampleSettingsManager;
+import com.useek.useek_example.R;
+import com.useek.useek_example.SettingsActivity;
 
 import static com.useek.library_beta.USeekPlayerActivity.USEEK_GAME_ID;
 import static com.useek.library_beta.USeekPlayerActivity.USEEK_USER_ID;
@@ -33,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        Button button = findViewById(R.id.main_activity_button);
+        Button button = findViewById(R.id.buttonActivity);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -41,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button button1 = findViewById(R.id.main_activity_fragment_button);
+        Button button1 = findViewById(R.id.buttonFragment);
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button button2 = findViewById(R.id.main_activity_custom_view_button);
+        Button button2 = findViewById(R.id.buttonCustomView);
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button button3 = findViewById(R.id.main_activity_programmatically_custom_view_button);
+        Button button3 = findViewById(R.id.buttonProgrammaticallyCustomView);
         button3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        buttonRequestPoints = findViewById(R.id.main_activity_request_points);
+        buttonRequestPoints = findViewById(R.id.buttonRequestPoints);
         buttonRequestPoints.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

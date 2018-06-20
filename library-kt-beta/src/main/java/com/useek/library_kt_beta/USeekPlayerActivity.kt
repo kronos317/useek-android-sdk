@@ -1,7 +1,7 @@
 package com.useek.library_kt_beta
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.view.View
 import kotlinx.android.synthetic.main.activity_useek.*
 
@@ -9,17 +9,18 @@ class USeekPlayerActivity : AppCompatActivity() {
 
     companion object {
         var listener: USeekPlayerCloseListener? = null
+
+        /**
+         * Key to set the user id in USeekPlayerActivity
+         */
+        val USEEK_USER_ID = "userId"
+
+        /**
+         * Key to set the game id in USeekPlayerActivity
+         */
+        val USEEK_GAME_ID = "gameId"
     }
 
-    /**
-     * Key to set the user id in USeekPlayerActivity
-     */
-    val USEEK_USER_ID = "userId"
-
-    /**
-     * Key to set the game id in USeekPlayerActivity
-     */
-    val USEEK_GAME_ID = "gameId"
 
     /**
      * Show / Hide close button
@@ -54,7 +55,7 @@ class USeekPlayerActivity : AppCompatActivity() {
 
         playerView.playerListener = listener
         playerView.loadingText = loadingText
-        playerView.loadVideo()
+        loadVideo(gameId, userId)
     }
 
     override fun onStop() {

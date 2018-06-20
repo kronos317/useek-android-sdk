@@ -7,7 +7,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import kotlinx.android.synthetic.main.activity_useek.*
+import kotlinx.android.synthetic.main.fragment_useek.*
 
 
 /**
@@ -60,14 +60,17 @@ class USeekPlayerFragment : Fragment() {
     }
 
     var gameId: String? = null
+
     var userId: String? = null
+
     var isCloseButtonHidden = true
+
     var loadingText: String? = null
 
-    private var listener: USeekPlayerCloseListener? = null
+    var listener: USeekPlayerCloseListener? = null
         set(value) {
             field = value
-            playerView.playerListener = value
+            playerView?.playerListener = value
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -95,6 +98,7 @@ class USeekPlayerFragment : Fragment() {
 
         playerView.playerListener = listener
         playerView.loadingText = loadingText
+        loadVideo()
     }
 
     override fun onAttach(context: Context?) {
@@ -104,9 +108,9 @@ class USeekPlayerFragment : Fragment() {
     }
 
     override fun onDetach() {
-        super.onDetach()
+        playerView?.destroy()
         listener = null
-        playerView.destroy()
+        super.onDetach()
     }
 
     /**

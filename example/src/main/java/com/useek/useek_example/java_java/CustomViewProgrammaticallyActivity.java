@@ -1,4 +1,4 @@
-package com.useek.useek_example;
+package com.useek.useek_example.java_java;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +13,8 @@ import android.widget.TextView;
 import com.useek.library_beta.USeekManager;
 import com.useek.library_beta.USeekPlayerListener;
 import com.useek.library_beta.USeekPlayerView;
+import com.useek.useek_example.ExampleSettingsManager;
+import com.useek.useek_example.R;
 
 public class CustomViewProgrammaticallyActivity extends AppCompatActivity implements USeekPlayerListener {
 
@@ -29,17 +31,16 @@ public class CustomViewProgrammaticallyActivity extends AppCompatActivity implem
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_custom_view_programmatically);
 
-        useekContainer = findViewById(R.id.useek_container);
+        useekContainer = findViewById(R.id.useekContainer);
         addUSeekPlayerView();
-        textViewScore   = findViewById(R.id.programmatically_activity_score_text);
-        buttonGetScore  = findViewById(R.id.programmatically_activity_get_score_button);
+        textViewScore   = findViewById(R.id.txtScore);
+        buttonGetScore  = findViewById(R.id.buttonScore);
         buttonGetScore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onPressedGetScore();
             }
         });
-
 
     }
 

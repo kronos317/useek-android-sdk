@@ -51,6 +51,7 @@ class USeekPlayerView : FrameLayout {
     var loadingText: String? = null
 
     var status = VideoLoadStatus.NONE
+        private set
     var isLoadingMaskHidden: Boolean = false
 
     var playerListener: USeekPlayerListener? = null
@@ -65,6 +66,7 @@ class USeekPlayerView : FrameLayout {
     private lateinit var mInflater: LayoutInflater
 
     constructor(context: Context) : super(context) {
+        mInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         init(context, null, 0)
     }
 
@@ -80,7 +82,7 @@ class USeekPlayerView : FrameLayout {
         mContext = context
 
         val view = LayoutInflater.from(context).inflate(R.layout.useek_view, this, true)
-        mWebView = view.findViewById(R.id.useek_web_view)
+        mWebView = view.findViewById(R.id.webView)
         mWebView!!.settings.loadWithOverviewMode = true
         mWebView!!.settings.useWideViewPort = true
 
@@ -110,13 +112,13 @@ class USeekPlayerView : FrameLayout {
     fun getView(): View {
         if (mCustomView == null) {
             mCustomView = mInflater.inflate(R.layout.useek_view, null)
-            mWebView = mCustomView!!.findViewById(R.id.useek_web_view)
+            mWebView = mCustomView!!.findViewById(R.id.webView)
             mWebView!!.settings.loadWithOverviewMode = true
             mWebView!!.settings.useWideViewPort = true
 
-            mLoadingMaskView = mCustomView!!.findViewById(R.id.useek_loading_mask_view)
-            mLoadingTextView = mCustomView!!.findViewById(R.id.useek_loading_text)
-            val progressBar = mCustomView!!.findViewById<ProgressBar>(R.id.useek_view_progressbar)
+            mLoadingMaskView = mCustomView!!.findViewById(R.id.loadingMaskView)
+            mLoadingTextView = mCustomView!!.findViewById(R.id.loadingText)
+            val progressBar = mCustomView!!.findViewById<ProgressBar>(R.id.progressBar)
             progressBar.indeterminateDrawable.setColorFilter(0xAAA, android.graphics.PorterDuff.Mode.SRC_ATOP)
 
             this.isLoadingMaskHidden = false
@@ -141,7 +143,7 @@ class USeekPlayerView : FrameLayout {
         this.gameId = gameId
         this.userId = userId
 
-        if ((!this.validateConfiguration())!!) return
+        if ((!this.validateConfiguration())) return
 
         val url = this.generateVideoUrl()
         if (url == null) {
@@ -161,7 +163,7 @@ class USeekPlayerView : FrameLayout {
         /** Set mWebView listener  */
         val me = this
         webView.webViewClient = object : WebViewClient() {
-            override fun onPageStarted(view: WebView, url: String, favicon: Bitmap) {
+            override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
                 super.onPageStarted(view, url, favicon)
                 me.didStartLoadingWebView()
             }

@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.useek.useek_example.FragmentSampleActivity">
+    tools:context="com.useek.useek_example.java_java.FragmentSampleActivity">
 
     <FrameLayout
-        android:id="@+id/fragment_container"
+        android:id="@+id/fragmentContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" >
@@ -23,14 +23,14 @@
         android:gravity="center">
 
         <Button
-            android:id="@+id/fragment_sample_show_useek"
+            android:id="@+id/buttonPlayView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Show USeek"/>
 
         <Button
-            android:id="@+id/fragment_sample_remove_fragment"
+            android:id="@+id/buttonRemoveFragment"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

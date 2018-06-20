@@ -1,4 +1,4 @@
-package com.useek.useek_example;
+package com.useek.useek_example.java_java;
 
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +13,8 @@ import com.useek.library_beta.USeekManager;
 import com.useek.library_beta.USeekPlayerCloseListener;
 import com.useek.library_beta.USeekPlayerFragment;
 import com.useek.library_beta.USeekPlayerView;
+import com.useek.useek_example.ExampleSettingsManager;
+import com.useek.useek_example.R;
 
 public class FragmentSampleActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -25,9 +27,9 @@ public class FragmentSampleActivity extends AppCompatActivity implements View.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragment_sample);
 
-        fragmentContainer = findViewById(R.id.fragment_container);
-        buttonShowUSeekView = findViewById(R.id.fragment_sample_show_useek);
-        buttonRemoveFragment = findViewById(R.id.fragment_sample_remove_fragment);
+        fragmentContainer = findViewById(R.id.fragmentContainer);
+        buttonShowUSeekView = findViewById(R.id.buttonPlayView);
+        buttonRemoveFragment = findViewById(R.id.buttonRemoveFragment);
 
         buttonShowUSeekView.setOnClickListener(this);
         buttonRemoveFragment.setOnClickListener(this);
@@ -82,7 +84,7 @@ public class FragmentSampleActivity extends AppCompatActivity implements View.On
         });
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.fragment_container, fragment)
+                .add(R.id.fragmentContainer, fragment)
                 .commit();
         fragment.loadVideo();
 
@@ -99,7 +101,7 @@ public class FragmentSampleActivity extends AppCompatActivity implements View.On
                 .beginTransaction()
                 .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                .remove(getSupportFragmentManager().findFragmentById(R.id.fragment_container))
+                .remove(getSupportFragmentManager().findFragmentById(R.id.fragmentContainer))
                 .commit();
 
         buttonShowUSeekView.setEnabled(true);

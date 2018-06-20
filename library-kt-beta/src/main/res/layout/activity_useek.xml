@@ -13,9 +13,7 @@
         <com.useek.library_kt_beta.USeekPlayerView
             android:id="@+id/playerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </com.useek.library_kt_beta.USeekPlayerView>
+            android:layout_height="match_parent" />
 
         <ImageButton
             android:id="@+id/buttonClose"
