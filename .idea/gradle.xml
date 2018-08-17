@@ -11,6 +11,7 @@
             <option value="$PROJECT_DIR$/example-java" />
             <option value="$PROJECT_DIR$/example-java-kotlin" />
             <option value="$PROJECT_DIR$/example-kotlin" />
+            <option value="$PROJECT_DIR$/example-kotlin-java" />
             <option value="$PROJECT_DIR$/library-beta" />
             <option value="$PROJECT_DIR$/library-kt-beta" />
           </set>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="30dp">
+
+    <Button
+        android:id="@+id/buttonActivity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Start Activity Sample"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/buttonFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Start Fragment Sample"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="@id/buttonActivity"
+        app:layout_constraintTop_toBottomOf="@id/buttonActivity"/>
+
+    <Button
+        android:id="@+id/buttonCustomView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Start Custom View Sample"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="@id/buttonActivity"
+        app:layout_constraintTop_toBottomOf="@id/buttonFragment"/>
+
+    <Button
+        android:id="@+id/buttonProgrammaticallyCustomView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Start Custom View Sample\n(Add Programmatically)"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="@id/buttonActivity"
+        app:layout_constraintTop_toBottomOf="@id/buttonCustomView"/>
+
+    <Button
+        android:id="@+id/buttonRequestPoints"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Request Latest Points"
+        android:layout_marginTop="50dp"
+        app:layout_constraintStart_toStartOf="@id/buttonActivity"
+        app:layout_constraintTop_toBottomOf="@id/buttonProgrammaticallyCustomView"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Kotlin library to Java"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</android.support.constraint.ConstraintLayout>
