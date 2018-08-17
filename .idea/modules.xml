@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/example/example.iml" filepath="$PROJECT_DIR$/example/example.iml" />
+      <module fileurl="file://$PROJECT_DIR$/example-java/example-java.iml" filepath="$PROJECT_DIR$/example-java/example-java.iml" />
+      <module fileurl="file://$PROJECT_DIR$/example-java-kotlin/example-java-kotlin.iml" filepath="$PROJECT_DIR$/example-java-kotlin/example-java-kotlin.iml" />
       <module fileurl="file://$PROJECT_DIR$/example-kotlin/example-kotlin.iml" filepath="$PROJECT_DIR$/example-kotlin/example-kotlin.iml" />
       <module fileurl="file://$PROJECT_DIR$/library-beta/library-beta.iml" filepath="$PROJECT_DIR$/library-beta/library-beta.iml" />
       <module fileurl="file://$PROJECT_DIR$/library-kt-beta/library-kt-beta.iml" filepath="$PROJECT_DIR$/library-kt-beta/library-kt-beta.iml" />

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.useek.example_kotlin">
+    package="com.useek.useek_example">
 
     <application
         android:allowBackup="true"
@@ -12,13 +12,25 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SettingsActivity" />
-        <activity android:name=".CustomViewProgrammaticallyActivity" />
-        <activity android:name=".CustomViewSampleActivity" />
-        <activity android:name=".FragmentSampleActivity" />
+        <activity
+            android:name="com.useek.library_beta.USeekPlayerActivity"
+            android:label="Activity" />
+        <activity
+            android:name=".FragmentSampleActivity"
+            android:label="Fragment" />
+        <activity
+            android:name=".CustomViewSampleActivity"
+            android:label="Custom View" />
+        <activity
+            android:name=".CustomViewProgrammaticallyActivity"
+            android:label="Custom View (Programmatically)" />
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings" />
     </application>
 
 </manifest>
