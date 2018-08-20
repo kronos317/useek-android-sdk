@@ -4,6 +4,7 @@
 
 #### USeek:-
 [![Java](https://img.shields.io/badge/Language-Java-blue.svg?style=flat)](https://java.com/en/)
+[![Java](https://img.shields.io/badge/Language-Kotlin-red.svg?style=flat)](https://kotlinlang.org/)
 
 Minimum API level **19**, Android OS **4.4** (KitKat)
 
