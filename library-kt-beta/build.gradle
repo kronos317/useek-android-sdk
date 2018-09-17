@@ -23,8 +23,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
 }
+
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -42,7 +42,7 @@ dependencies {
 ext {
     bintrayRepo = 'library-kt-beta'
     bintrayName = 'useek-android-kotlin-sdk'
-    versionName = "0.0.1"
+    versionName = "0.0.2"
 
     publishedGroupId = 'com.useek'
     libraryName = 'USeek-Kotlin-Library'
@@ -53,7 +53,7 @@ ext {
     siteUrl = 'https://github.com/chrislin89/useek-android-sdk'
     gitUrl = 'https://github.com/chrislin89/useek-android-sdk.git'
 
-    libraryVersion = '0.0.1'
+    libraryVersion = '0.0.2'
 
     developerId = 'chrislin89'
     developerName = 'Chris Lin'
