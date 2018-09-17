@@ -54,7 +54,7 @@ There are 4 main classes
 `USeekManager` is singleton class, with which you can do the following actions
  - Set / Retrieve `publisher ID`
  - Request for the points of certain user
-
+ 
 `USeekPlayerView`, `USeekPlayerFragment`, and `USeekPlayerActivity` classes are designed to easily load & play the video in any fragments / activities or layouts. You can use any of these 3 classes as per your need / use case.
 Demo project demonstrates all use cases.
 
@@ -83,7 +83,7 @@ USeekManager.sharedInstance.publisherId = "{your publisher ID}"
 USeekPlayerView inherits FrameLayout, thus you can directly add it in layout resource file or add as subview programmatically.
 
  - Drop into layout resource file
-
+ 
 ```xml
 <com.useek.library_beta.USeekPlayerView
     android:id="@+id/useekPlayerView"
@@ -125,7 +125,7 @@ override fun onStop() {
 ```
 
  - Add as subview programmatically
-
+ 
 ##### Java
 ```java
 USeekPlayerView useekPlayerView = new USeekPlayerView(this);
@@ -282,11 +282,11 @@ Function3<? super Integer, ? super Integer, ? super Error, Unit> requestPointLam
         new Function3<Integer, Integer, Error, Unit>() {
             @Override
             public Unit invoke(Integer lastPlayPoints, Integer totalPlayPoints, Error error) {
-
+            
                 return null;
             }
         };
-
+        
 USeekManager.Companion.getSharedInstance().requestPoints("{game id}", "{user id}", requestPointLambda);
 ```
 ##### Kotlin library in Kotlin code
